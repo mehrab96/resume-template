@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className='container m-auto mt-16'>
+        <div className='container m-auto mt-16 mb-16'>
         <div className='rounded-t-3xl rounded-tl-none float-right p-8 pl-2 pr-8 relative TopHeadSvg bg-white w-2/3 h-[7rem]'>
             <nav className='py-4 rounded-3xl px-8 bg-slate-100 flex justify-between'>
               <Link className='link activeLink' href="/">About me</Link>
@@ -30,7 +30,7 @@ export default function RootLayout({
               <Link className='link' href="/contact-me">Contact me</Link>
             </nav>
         </div>
-        <div className='p-8 rounded-b-3xl grid grid-cols-[auto_1fr] rounded-l-3xl w-full bg-white h-[40rem]'>
+        <div className='p-8 rounded-b-3xl grid grid-cols-[auto_1fr] rounded-l-3xl w-full bg-white'>
         <aside className='w-[25rem]'>
           <div className="rounded-3xl z-20 max-lg:mt-8">
             <div className="bg-white sticky top-0 px-6 max-xl:px-2 rounded-3xl py-10">
@@ -95,12 +95,12 @@ export default function RootLayout({
             </div>
           </div>
         </aside>
-        <section className='w-full bg-slate-50'>
-
+        <section className='w-full'>
+        {children}
         </section>
         </div>
       </div>
-        {children}</body>
+    </body>
     </html>
   )
 }

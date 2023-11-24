@@ -18,3 +18,8 @@
 .link{
     @apply text-sm font-normal h-10 leading-9 px-6 rounded-full
 }
+.highlight {
+    @apply relative before:z-0 before:w-16 before:h-7 before:bg-no-repeat
+    before:bg-[url(//s2.svgbox.net/pen-brushes.svg?ic=brush-1&color=c9d9e8)]
+    before:content-[""] before:absolute before:top-0 ltr:left-0 rtl:before:right-0;
+}
