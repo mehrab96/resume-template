@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Link from 'next/link'
 import Image from 'next/image'
+import { MdLocationCity , MdOutlineEditCalendar , MdOutlinePhone, MdOutlineEmail } from "react-icons/md";
+import { FaTelegram , FaWhatsapp , FaTwitter , FaGithub, FaInstagram } from "react-icons/fa";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,7 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <div className='container m-auto mt-16'>
-        <div className='rounded-t-3xl p-8 pl-8 pr-12 relative TopHeadSvg bg-white w-2/3 h-[7rem]'>
+        <div className='rounded-t-3xl rounded-tl-none float-right p-8 pl-2 pr-8 relative TopHeadSvg bg-white w-2/3 h-[7rem]'>
             <nav className='py-4 rounded-3xl px-8 bg-slate-100 flex justify-between'>
               <Link className='link activeLink' href="/">About me</Link>
               <Link className='link' href="/resume">Resume</Link>
@@ -28,33 +30,74 @@ export default function RootLayout({
               <Link className='link' href="/contact-me">Contact me</Link>
             </nav>
         </div>
-        <div className='p-8 rounded-b-3xl grid grid-cols-[1fr_auto] rounded-r-3xl w-full bg-white h-[40rem]'>
-            <section className='w-full bg-slate-50'>
-
-            </section>
-            <aside className='w-[25rem]'>
-              <div className="rounded-3xl z-20 max-lg:mt-8">
-                <div className="bg-white sticky top-0 px-6 max-xl:px-2 rounded-3xl py-10">
-                    <figure className="w-44 h-44 overflow-hidden m-auto rounded-[1.5rem]">
-                    <Image
-                      src="/images/image not found.webp"
-                      width={500}
-                      height={500}
-                      alt="Picture of the author"
-                    />
-                    </figure>
-                    <h1 className="text-center text-primary-active p-4 font-black text-xl">full name</h1>
-                    <div className="text-[.82rem] font-light text-center grid justify-center">
-                        <span className="bg-[#f6f6f6] text-primary-active rounded-xl py-3 px-8">your job</span>
-                    </div>
-                    <div className="bg-light mt-6 rounded-3xl">
-                        <div className="grid grid-cols-[repeat(4,auto)] px-10 gap-4 justify-center h-20 items-center">
-                        
-                        </div>                                                     
-                    </div>
-                  </div>
+        <div className='p-8 rounded-b-3xl grid grid-cols-[auto_1fr] rounded-l-3xl w-full bg-white h-[40rem]'>
+        <aside className='w-[25rem]'>
+          <div className="rounded-3xl z-20 max-lg:mt-8">
+            <div className="bg-white sticky top-0 px-6 max-xl:px-2 rounded-3xl py-10">
+              <figure className="w-44 h-44 overflow-hidden m-auto rounded-[1.5rem]">
+              <Image
+                src="/images/image not found.webp"
+                width={500}
+                height={500}
+                alt="Picture of the author"
+              />
+              </figure>
+              <h1 className="text-center text-primary-active p-4 font-black text-xl">
+                Your Full Name
+              </h1>
+              <div className="text-[.82rem] font-light text-center grid justify-center">
+                  <span className="bg-[#f6f6f6] text-primary-active rounded-xl py-3 px-8">Your Job</span>
               </div>
-            </aside>
+              <div className="bg-light mt-6 rounded-3xl">
+                <div className="grid text-light grid-cols-[repeat(4,auto)] px-10 gap-4 justify-center pt-6 items-center">
+                  <a href="https://t.me/programmer_meh" target="_blank" className="bg-primary-active w-8 h-8 rounded-[.5rem] grid items-center justify-center">
+                    <FaTelegram/>
+                  </a>
+                  <a href="https://github.com/mehrab96" target="_blank" className="bg-primary-active w-8 h-8 rounded-[.5rem] grid items-center justify-center ">
+                    <FaGithub/>
+                  </a>
+                  <a href="https://wa.me/+989112176238" target="_blank" className="bg-primary-active w-8 h-8 rounded-[.5rem] grid items-center justify-center ">
+                    <FaWhatsapp/>
+                  </a>
+                  <a href="https://www.instagram.com/m.mehrab76" target="_blank" className="bg-primary-active w-8 h-8 rounded-[.5rem] grid items-center justify-center ">
+                    <FaInstagram/>
+                  </a>
+                </div>
+                <div className="grid grid-cols-[repeat(4,auto)] px-6 gap-4 justify-start items-center">
+                <ul className="grid py-4 gap-2 text-md font-light text-primary-active">
+                    <li className="grid truncate gap-2 h-8 justify-start items-center grid-cols-[auto_auto]">
+                        <div className="grid items-center">
+                            <MdOutlineEditCalendar/>
+                        </div>
+                        <span>20 December 1997</span>
+                    </li>
+                    <li className="grid gap-2 h-8 justify-start items-center grid-cols-[auto_auto]">
+                        <div className="grid items-center">
+                          <MdLocationCity/>
+                        </div>
+                        <span>Iran - Mazandaran - Babol</span>
+                    </li>
+                    <li className="grid gap-2 h-8 justify-start items-center grid-cols-[auto_auto]">
+                        <div className="grid items-center">
+                          <MdOutlineEmail/>
+                        </div>
+                        <span>mehrabesmailnia96@gmail.com</span>
+                    </li>
+                    <li className="grid gap-2 h-8 justify-start items-center grid-cols-[auto_auto]">
+                        <div className="grid items-center">
+                          <MdOutlinePhone />
+                        </div>
+                        <span>+989112176238</span>
+                    </li>
+                </ul>
+                </div>                                                     
+              </div>
+            </div>
+          </div>
+        </aside>
+        <section className='w-full bg-slate-50'>
+
+        </section>
         </div>
       </div>
         {children}</body>

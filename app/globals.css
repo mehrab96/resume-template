@@ -10,7 +10,7 @@
 
 .TopHeadSvg{
     @apply before:bg-no-repeat before:h-full before:content-['']
-    before:absolute before:bg-contain before:-right-44 before:top-0 before:bg-svgTopHead before:w-full before:box-border before:scale-x-[-1];
+    before:absolute before:bg-contain before:-left-52 before:top-0 before:bg-svgTopHead before:w-full before:box-border;
 }
 .activeLink{
     @apply bg-primary-active shadow-xl shadow-primary-active/60 text-light-active 
