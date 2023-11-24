@@ -2,5 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    body{
+        @apply bg-light
+    }
+}
 
-
+.TopHeadSvg{
+    @apply before:bg-no-repeat before:h-full before:content-['']
+    before:absolute before:bg-contain before:-right-44 before:top-0 before:bg-svgTopHead before:w-full before:box-border before:scale-x-[-1];
+}
+.activeLink{
+    @apply bg-primary-active shadow-xl shadow-primary-active/60 text-light-active 
+}
+.link{
+    @apply text-sm font-normal h-10 leading-9 px-6 rounded-full
+}

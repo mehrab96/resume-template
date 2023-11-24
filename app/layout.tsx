@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import Link from 'next/link'
+import Image from 'next/image'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,7 +18,46 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className='container m-auto mt-16'>
+        <div className='rounded-t-3xl p-8 pl-8 pr-12 relative TopHeadSvg bg-white w-2/3 h-[7rem]'>
+            <nav className='py-4 rounded-3xl px-8 bg-slate-100 flex justify-between'>
+              <Link className='link activeLink' href="/">About me</Link>
+              <Link className='link' href="/resume">Resume</Link>
+              <Link className='link' href="/work-samples">Work samples</Link>
+              <Link className='link' href="/contact-me">Contact me</Link>
+            </nav>
+        </div>
+        <div className='p-8 rounded-b-3xl grid grid-cols-[1fr_auto] rounded-r-3xl w-full bg-white h-[40rem]'>
+            <section className='w-full bg-slate-50'>
+
+            </section>
+            <aside className='w-[25rem]'>
+              <div className="rounded-3xl z-20 max-lg:mt-8">
+                <div className="bg-white sticky top-0 px-6 max-xl:px-2 rounded-3xl py-10">
+                    <figure className="w-44 h-44 overflow-hidden m-auto rounded-[1.5rem]">
+                    <Image
+                      src="/images/image not found.webp"
+                      width={500}
+                      height={500}
+                      alt="Picture of the author"
+                    />
+                    </figure>
+                    <h1 className="text-center text-primary-active p-4 font-black text-xl">full name</h1>
+                    <div className="text-[.82rem] font-light text-center grid justify-center">
+                        <span className="bg-[#f6f6f6] text-primary-active rounded-xl py-3 px-8">your job</span>
+                    </div>
+                    <div className="bg-light mt-6 rounded-3xl">
+                        <div className="grid grid-cols-[repeat(4,auto)] px-10 gap-4 justify-center h-20 items-center">
+                        
+                        </div>                                                     
+                    </div>
+                  </div>
+              </div>
+            </aside>
+        </div>
+      </div>
+        {children}</body>
     </html>
   )
 }
