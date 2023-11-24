@@ -4,7 +4,7 @@ import './globals.css'
 import Link from 'next/link'
 import Image from 'next/image'
 import { MdLocationCity , MdOutlineEditCalendar , MdOutlinePhone, MdOutlineEmail } from "react-icons/md";
-import { FaTelegram , FaWhatsapp , FaTwitter , FaGithub, FaInstagram } from "react-icons/fa";
+import { FaTelegram , FaWhatsapp , FaGithub, FaInstagram } from "react-icons/fa";
 
 const inter = Inter({ subsets: ['latin'] })
 
