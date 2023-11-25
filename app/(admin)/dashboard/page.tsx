@@ -1,8 +1,13 @@
-import React from 'react'
+import React from 'react';
+import FormEditInformation from '../components/forms/FormEditInformation';
+
+
 
 const DashboardPage = () => {
   return (
-    <div>DashboardPage</div>
+    <div>
+      <FormEditInformation/>
+    </div>
   )
 }
 
