@@ -4,6 +4,7 @@ import './admin.css'
 import ProgressProvider from './components/progressbar/ProgressProvider';
 
 
+
 // Initializing Inter font with Latin subset
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,7 +25,7 @@ export default function AdminLayout({
     <html lang="en">
       <body className={inter.className}>
       <ProgressProvider>
-        <header>header</header>
+        <aside className='fixed top-0 left-0 w-80 h-full bg-slate-700'></aside>
             {children}
         <footer>footer</footer>
       </ProgressProvider>

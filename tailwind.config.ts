@@ -73,8 +73,7 @@ const config: Config = {
   },
   plugins: [
     require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-    require("daisyui")
+    require('@tailwindcss/typography')
   ],
 }
 export default config
