@@ -1,12 +1,17 @@
+import '@radix-ui/themes/styles.css';
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './admin.css'
+import './theme-config.css';
+import './admin.css';
 import ProgressProvider from './components/progressbar/ProgressProvider';
-
+import { Box, Grid, Theme  } from '@radix-ui/themes';
 
 
 // Initializing Inter font with Latin subset
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter',
+ })
 
 // Metadata for the root layout
 export const metadata: Metadata = {
@@ -25,9 +30,18 @@ export default function AdminLayout({
     <html lang="en">
       <body className={inter.className}>
       <ProgressProvider>
-        <aside className='fixed top-0 left-0 w-80 h-full bg-slate-700'></aside>
-            {children}
-        <footer>footer</footer>
+        <Theme appearance='light' accentColor='violet'>
+          <Grid columns="auto 1fr">
+            <Box className='h-[100vh] w-80 bg-slate-700'>
+              <figure className='w-full py-1 h-20'>
+                <img className='w-full h-full object-contain' src="/images/Untitled.png" alt="" />
+              </figure>
+            </Box>
+            <Box className='h-20 w-full shadow-xl shadow-slate-300/30'>
+              
+            </Box>
+          </Grid>
+        </Theme>
       </ProgressProvider>
     </body>
     </html>
