@@ -26,7 +26,7 @@ export default function RootLayout({
         <div className='container m-auto mt-16 mb-16'>
         {/* Top navigation bar */}
         <div className='rounded-t-3xl rounded-tl-none float-right p-8 pl-2 pr-8 relative TopHeadSvg bg-white w-2/3 h-[7rem]'>
-            <nav className='py-4 rounded-3xl px-8 bg-slate-100 flex justify-between'>
+            <nav className='py-4 relative rounded-3xl px-8 bg-slate-100 flex justify-between'>
               <Link className='link activeLink' href="/">About me</Link>
               <Link className='link' href="/resume">Resume</Link>
               <Link className='link' href="/work-samples">Work samples</Link>

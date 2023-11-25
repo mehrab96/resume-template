@@ -23,3 +23,9 @@
     before:bg-[url(//s2.svgbox.net/pen-brushes.svg?ic=brush-1&color=c9d9e8)]
     before:content-[""] before:absolute before:top-0 ltr:left-0 rtl:before:right-0;
 }
+.circleOverLi {
+    @apply before:absolute before:bg-primary-medium before:content-[""] before:top-[.25rem] before:-left-[.5rem]
+    before:h-4 before:w-4 before:rounded-full
+    after:absolute after:bg-primary-medium/30 after:content-[""] after:-top-0 after:-left-[.74rem] after:h-6
+    after:w-6 after:rounded-full;
+}
