@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Link from 'next/link'
 import Image from 'next/image'
 import { MdLocationCity , MdOutlineEditCalendar , MdOutlinePhone, MdOutlineEmail } from "react-icons/md";
 import { FaTelegram , FaWhatsapp , FaGithub, FaInstagram } from "react-icons/fa";
+import ProgressProvider from './components/progressbar/ProgressProvider';
+import NavLinks from './components/NavLinks'
 
 // Initializing Inter font with Latin subset
 const inter = Inter({ subsets: ['latin'] })
@@ -20,18 +21,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  
+
   return (
     <html lang="en">
       <body className={inter.className}>
+      <ProgressProvider>
         <div className='container m-auto mt-16 mb-16'>
         {/* Top navigation bar */}
         <div className='rounded-t-3xl rounded-tl-none float-right p-8 pl-2 pr-8 relative TopHeadSvg bg-white w-2/3 h-[7rem]'>
-            <nav className='py-4 relative rounded-3xl px-8 bg-slate-100 flex justify-between'>
-              <Link className='link activeLink' href="/">About me</Link>
-              <Link className='link' href="/resume">Resume</Link>
-              <Link className='link' href="/work-samples">Work samples</Link>
-              <Link className='link' href="/contact-me">Contact me</Link>
-            </nav>
+          <NavLinks/>
         </div>
 
         {/* Main content container */}
@@ -111,7 +110,8 @@ export default function RootLayout({
         {children}
         </section>
         </div>
-      </div>
+        </div>
+      </ProgressProvider>
     </body>
     </html>
   )
