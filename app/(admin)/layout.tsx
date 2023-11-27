@@ -4,10 +4,10 @@ import { Inter } from 'next/font/google'
 import './theme-config.css';
 import './admin.css';
 import ProgressProvider from './components/progressbar/ProgressProvider';
-import { Avatar, Box, Grid, Theme  } from '@radix-ui/themes';
-import Link from 'next/link';
-import { TbDashboard , TbCertificate } from "react-icons/tb";
+import { Box, Grid, Theme  } from '@radix-ui/themes';
 import SideBar from './components/SideBar';
+import Header from './components/Header';
+import AuthProvider from '../auth/AuthProvider';
 
 
 // Initializing Inter font with Latin subset
@@ -32,53 +32,26 @@ export default function AdminLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-      <ProgressProvider>
-        <Theme appearance='light' accentColor='violet'>
-          <Grid align="start" columns="auto 1fr">
-            <Grid align="start" className='h-[100vh] content-start w-80 bg-slate-800'>
-              <figure className='w-full py-1 h-20'>
-                <img className='w-full h-full object-contain' src="/images/Untitled.png" alt="" />
-              </figure>
-              <SideBar/>
-            </Grid>
-            <Grid align="start" className='grid grid-cols-1 content-start items-start'>
-              <Grid align="center" className='h-20 w-full shadow-xl shadow-slate-300/30'>
-                <Box className="navbar bg-base-100">
-                  <Box className="flex-1">
-                  <div className="flex-none">
-                    <button className="btn btn-square btn-ghost">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                    </button>
-                  </div>
+        <AuthProvider>
+          <ProgressProvider>
+            <Theme appearance='light' accentColor='violet'>
+              <Grid align="start" columns="auto 1fr">
+                <Grid align="start" className='h-[100vh] content-start w-80 bg-slate-800'>
+                  <figure className='w-full py-1 h-20'>
+                    <img className='w-full h-full object-contain' src="/images/Untitled.png" alt="" />
+                  </figure>
+                  <SideBar/>
+                </Grid>
+                <Grid align="start" className='grid grid-cols-1 content-start items-start'>
+                  <Header/>
+                  <Box className='p-6'>
+                    {children}
                   </Box>
-                  <Box className="flex-none">
-                    <div className="dropdown dropdown-end">
-                      <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full">
-                        <Avatar referrerPolicy='no-referrer' className='cursor-pointer' src="" fallback="?" size="3" radius='full'/>
-                        </div>
-                      </label>
-                      <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                        <li>
-                          <a className="justify-between">
-                            Profile
-                            <span className="badge">New</span>
-                          </a>
-                        </li>
-                        <li><a>Settings</a></li>
-                        <li><a>Logout</a></li>
-                      </ul>
-                    </div>
-                  </Box>
-                </Box>          
+                </Grid>
               </Grid>
-              <Box className='p-6'>
-                {children}
-              </Box>
-            </Grid>
-          </Grid>
-        </Theme>
-      </ProgressProvider>
+            </Theme>
+          </ProgressProvider>
+        </AuthProvider>
     </body>
     </html>
   )

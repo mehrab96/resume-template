@@ -8,7 +8,7 @@ const SideBar = () => {
     <div className='px-4 pr-6 mt-4'>
         <ul className="menu bg-slate-900/60 !text-light text-base rounded-box">
             <li>
-                <Link className='!text-light' href="/">
+                <Link className='!text-light' href="/admin/dashboard">
                     <TbDashboard className="text-xl"/>
                     <span>Dashboard</span>          
                 </Link>
@@ -21,12 +21,12 @@ const SideBar = () => {
                 </summary>
                 <ul className='before:bg-slate-700'>
                     <li>
-                        <Link className='!text-light' href="/work-samples/all">
+                        <Link className='!text-light' href="/admin/work-samples/all">
                             All Sample
                         </Link>
                     </li>
                     <li>
-                        <Link className='!text-light' href="/work-samples/create">
+                        <Link className='!text-light' href="/admin/work-samples/create">
                             Add Sample
                         </Link>
                     </li>                  

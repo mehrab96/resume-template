@@ -1,5 +1,5 @@
 import React from 'react';
-import FormEditInformation from '../components/forms/FormEditInformation';
+import FormEditInformation from '../../components/forms/FormEditInformation';
 
 
 
