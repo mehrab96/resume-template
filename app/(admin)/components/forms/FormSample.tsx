@@ -1,19 +1,49 @@
 "use client";
-import { Button, Grid, TextFieldInput, Text, TextArea, Select } from '@radix-ui/themes'
+import { Button, Grid, TextFieldInput, Text, Select } from '@radix-ui/themes'
 import React, { useState  } from 'react';
 import {zodResolver} from '@hookform/resolvers/zod';
 import { useForm } from "react-hook-form"
 import { WorkSamplesSchema } from '../../validations/validationSchemas';
 import { z } from 'zod';
-import { MdCloudUpload, MdUploadFile } from 'react-icons/md';
+import { MdCloudUpload } from 'react-icons/md';
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 type WorkSampleForm = z.infer<typeof WorkSamplesSchema>;
+
+
+
+
 
 const FormSample = () => {
 
         const [error , setError] = useState('');
-        const [isSubmitting , setSubmitting] = useState(false)
-    
+        const [isSubmitting , setSubmitting] = useState(false);
+        const [body , setBody] = useState('');
+        const [status , setStatus] = useState('');
+        const editorConfiguration = {
+            toolbar: [
+                'heading',
+                '|',
+                'bold',
+                'italic',
+                'link',
+                'bulletedList',
+                'numberedList',
+                '|',
+                'outdent',
+                'indent',
+                '|',
+                'imageUpload',
+                'blockQuote',
+                'insertTable',
+                'mediaEmbed',
+                'undo',
+                'redo'
+            ]
+        };
+
+
         const {
             register,
             handleSubmit,
@@ -22,9 +52,17 @@ const FormSample = () => {
             resolver: zodResolver(WorkSamplesSchema)
           });
     
+
+        const getEditorHandler = (editor: any) => {
+            setBody(editor.getData());
+        }
+
         const submitSample = handleSubmit(async (data) => {
-                console.log(data); 
+            //
         });
+        
+    
+        
 
   return (
     <div>
@@ -41,39 +79,34 @@ const FormSample = () => {
             <Grid columns="1fr auto" align="start" gap="4">                
                 <Grid columns="1" gap="3" align="start">
                     <Grid columns="1" gap="3">
-                        <TextFieldInput size="3" placeholder='title' {...register('title')}></TextFieldInput>
+                        <TextFieldInput size="3" className='placeholder:text-sm' placeholder='type your title' {...register('title')}></TextFieldInput>
                         {
                             errors.title &&
                             <Text color="red" className='h-7' size="2" as="p">{errors.title?.message}</Text>
                         }
                     </Grid>
                     <Grid>
-                        <TextFieldInput size="3" placeholder='slug' {...register('slug')}></TextFieldInput>
+                        <TextFieldInput size="3" className='placeholder:text-sm' placeholder='type your slug' {...register('slug')}></TextFieldInput>
                         {
                              errors.slug &&
                             <Text className='h-7' color="red" size="2" as="p">{errors.slug?.message}</Text>
                         }
                     </Grid>
                     <Grid>
-                    <Select.Root size="3" {...register('status')} defaultValue="apple">
+                        <Select.Root size="3" onValueChange={(value) => setStatus(value)}  defaultValue="0">
                         <Select.Trigger />
-                        <Select.Content>
-                        <Select.Item value="apple">pending</Select.Item>
-                        <Select.Item value="orange">publish</Select.Item>
+                        <Select.Content position="popper">
+                            <Select.Item value="0">pending</Select.Item>
+                            <Select.Item value="1">publish</Select.Item>
                         </Select.Content>
-                    </Select.Root>
-
-                        {
-                             errors.status &&
-                            <Text className='h-7' color="red" size="2" as="p">{errors.status?.message}</Text>
-                        }
+                        </Select.Root>
                     </Grid>
                     <Grid>
-                        <TextArea size="3" placeholder='body' {...register('body')}></TextArea>
-                        {
-                             errors.body &&
-                            <Text className='h-7' color="red" size="2" as="p">{errors.body?.message}</Text>
-                        }
+                    <CKEditor    
+                        onChange={ (event, editor ) => getEditorHandler(editor)}     
+                        config={editorConfiguration}
+                        editor={ClassicEditor}                
+                       />                        
                     </Grid>
                 </Grid>
                 <Grid>
@@ -97,5 +130,6 @@ const FormSample = () => {
     </div>
   )
 }
+
 
 export default FormSample

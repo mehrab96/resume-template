@@ -7,3 +7,7 @@
         @apply bg-light
     }
 }
+
+.ck , .ck-content{
+    @apply h-64;
+}
