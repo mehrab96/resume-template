@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { MdCloudUpload } from 'react-icons/md';
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import axios from 'axios';
 
 type WorkSampleForm = z.infer<typeof WorkSamplesSchema>;
 
@@ -58,7 +59,15 @@ const FormSample = () => {
         }
 
         const submitSample = handleSubmit(async (data) => {
-            //
+            const response = await axios.post('/api/work-sample' , {
+                title : data.title,
+                slug : data.slug,
+                status : status,
+                body : body,
+            });
+            if(response.status == 201){
+                console.log(response.data);
+            }
         });
         
     
