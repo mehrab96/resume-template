@@ -16,7 +16,6 @@ export const InformationSchema = z.object({
 
 export const WorkSamplesSchema = z.object({
     title: z.string().min(1).max(255),
-    image: z.string().nullable(),
     slug: z.string().min(1).max(255),
     status: z.boolean().default(false),
     body: z.string().nullable(),
