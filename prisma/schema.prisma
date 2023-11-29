@@ -55,6 +55,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   galleries     Gallery[]
+  samples       Sample[]
 }
 
 model Gallery {
@@ -66,6 +67,18 @@ model Gallery {
   size       Int?
   path       String?   @db.Text
   url        String?   @db.Text
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+}
+
+model Sample {
+  id         Int       @id @default(autoincrement())
+  user       User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int?
+  title      String?
+  slug       String?
+  body       String?   @db.Text
+  status     Boolean?  @default(false)
   created_at DateTime  @default(now())
   updated_at DateTime?
 }

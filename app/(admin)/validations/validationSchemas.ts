@@ -13,3 +13,11 @@ export const InformationSchema = z.object({
     InstagramID: z.string().min(1).max(255).nullable(),
     WhatsApp: z.string().min(1).max(255).nullable(),
 });
+
+export const WorkSamplesSchema = z.object({
+    title: z.string().min(1).max(255),
+    image: z.string().nullable(),
+    slug: z.string().min(1).max(255),
+    status: z.boolean().default(false),
+    body: z.string().nullable(),
+});
