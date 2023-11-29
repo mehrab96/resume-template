@@ -64,6 +64,10 @@ const MediaPage = () => {
       paramName: "file",
       maxFilesize: 2,
       method: 'POST',
+      dictDefaultMessage: `<div className='grid content-center justify-center grid-rows-[auto_auto] items-center'>
+      <h1 className="!font-bold !text-2xl"><b>Drag and drop files here</b></h1>
+      <p className="!font-medium !text-lg">Your can click and choose your files</p>
+      </div>`,
       url: '/api/upload',
       headers: {},
       accept: function (file, done) {
@@ -80,12 +84,11 @@ const MediaPage = () => {
   } , []);
 
 
-
-
   return (
     <div>
-        <form action="/target" className="dropzone" id="myGreatDropzone"></form>
-
+        <form action="/target" className="dropzone grid content-center justify-center grid-rows-[auto_auto] h-[12rem] !border-dashed" id="myGreatDropzone">
+        </form>
+      
         <Grid mt="8" gap="4" columns="4">
           {files.map((file , index) => (
             <div key={index} className="card bg-base-100 shadow-xl">
