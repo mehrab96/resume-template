@@ -36,10 +36,7 @@ export default function AdminLayout({
           <ProgressProvider>
             <Theme appearance='light' accentColor='violet'>
               <Grid align="start" columns="auto 1fr">
-                <Grid align="start" className='h-[100vh] content-start w-80 bg-slate-800'>
-                  <figure className='w-full py-1 h-20'>
-                    <img className='w-full h-full object-contain' src="/images/Untitled.png" alt="" />
-                  </figure>
+                <Grid align="start" className='h-[100%] min-h-[100vh] content-start w-80 bg-slate-800'>              
                   <SideBar/>
                 </Grid>
                 <Grid align="start" className='grid grid-cols-1 content-start items-start'>

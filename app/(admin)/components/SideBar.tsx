@@ -1,16 +1,25 @@
 import Link from 'next/link'
 import React from 'react'
 import { TbCertificate, TbDashboard } from 'react-icons/tb'
-import { MdCastForEducation, MdEditNote, MdLogout, MdOutlineBusinessCenter, MdOutlinePhone } from "react-icons/md";
+import { MdCastForEducation, MdEditNote, MdLogout, MdOutlineBusinessCenter, MdOutlinePermMedia, MdOutlinePhone } from "react-icons/md";
 
 const SideBar = () => {
   return (
-    <div className='px-4 pr-6 mt-4'>
+    <div className='px-4 pr-6 mt-4 sticky top-6 right-0'>
+        <figure className='w-full py-1 h-20'>
+            <img className='w-full h-full object-contain' src="/images/Untitled.png" alt="" />
+        </figure>
         <ul className="menu bg-slate-900/60 !text-light text-base rounded-box">
             <li>
                 <Link className='!text-light' href="/admin/dashboard">
                     <TbDashboard className="text-xl"/>
                     <span>Dashboard</span>          
+                </Link>
+            </li>
+            <li>
+                <Link className='!text-light' href="/admin/media">
+                    <MdOutlinePermMedia className="text-xl"/>
+                    <span>Media Management</span>          
                 </Link>
             </li>
             <li>

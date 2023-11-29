@@ -8,7 +8,8 @@ import ProgressProvider from './components/progressbar/ProgressProvider';
 import NavLinks from './components/NavLinks'
 
 // Initializing Inter font with Latin subset
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
+
 
 // Metadata for the root layout
 export const metadata: Metadata = {
@@ -22,7 +23,6 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   
-
   return (
     <html lang="en">
       <body className={inter.className}>

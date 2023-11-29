@@ -9,7 +9,7 @@ const session = await getServerSession(authOptions);
 
 
   return (
-    <Grid align="center" className='h-20 w-full shadow-xl shadow-slate-300/30'>
+    <Grid align="center" className='h-20 z-50 sticky top-0 bg-white right-0 w-full shadow-xl shadow-slate-300/30'>
         <Box className="navbar bg-base-100">
             <Box className="flex-1">
             <div className="flex-none">
