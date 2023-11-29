@@ -6,6 +6,7 @@ import "dropzone/dist/dropzone.css"
 import { Grid } from '@radix-ui/themes';
 
 interface File {
+  id: string;
   name: string;
   url: string;
   format: string;
@@ -17,11 +18,11 @@ const MediaPage = () => {
 
   const [files , setFiles] = useState<File[]>([]);
   const [links , setLinks] = useState<PaginateLinks[]>([]);
-  const [currentPage , setCurrentPage] = useState<string[]>([]);
+  const [currentPage , setCurrentPage] = useState<any>([]);
   const [lastPage , setLastPage] = useState<string[]>([]);
   
 
-  const getAllGalleries = async (page) => {
+  const getAllGalleries = async (page: number) => {
     const response = await axios.post('/api/upload/all',{
       page: page
     });
@@ -33,7 +34,7 @@ const MediaPage = () => {
     }
   }
 
-  const paginateHandler = (type , page = null) => {
+  const paginateHandler = (type: string , page = null) => {
     switch(type){
       case 'prev' : 
       if(currentPage > 1) getAllGalleries(currentPage - 1)
@@ -45,6 +46,16 @@ const MediaPage = () => {
       if(currentPage <= lastPage && currentPage >= 1) getAllGalleries(page)
       break;
     }
+  }
+
+
+  const removeMediaHandler = async (file: File , index: number) => {
+    const res = await axios.post(`/api/upload/delete` , {id : file.id});
+    if(res.status == 200){
+      const newArray = [...files.slice(0, index), ...files.slice(index + 1)];
+      setFiles(newArray);
+    }
+    
   }
 
   useEffect(()=> {
@@ -79,10 +90,13 @@ const MediaPage = () => {
           {files.map((file , index) => (
             <div key={index} className="card bg-base-100 shadow-xl">
             <figure className='h-[12rem]'><img className='w-full h-full object-cover' src={file.url} alt={file.name} /></figure>
-            <div className="card-body">
-              <span className="card-title collapse !text-sm">{file.name}</span>                    
-              <span className="card-title collapse !text-sm">{file.format}</span>                    
-              <span className="card-title collapse !text-sm">{file.size}</span>                    
+            <div className="px-4 py-3 w-full grid gap-1 grid-cols-1">
+              <div className="font-bold w-full truncate !text-[.85rem]">{file.name}</div>                    
+              <div className="font-bold truncate !text-[.85rem]">format: <span>{file.format}</span></div>                    
+              <div className="font-bold truncate !text-[.85rem]">size: <span className='text-xs'>{file.size}</span></div>                    
+            </div>
+            <div className='grid justify-center mb-4'>
+            <button className='bg-red-50 font-semibold text-sm text-red-700 rounded-2xl py-2 px-8' onClick={() => removeMediaHandler(file , index)}>Remove Media</button>
             </div>
           </div>
           ))}
