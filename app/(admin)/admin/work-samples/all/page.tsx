@@ -1,36 +1,24 @@
 "use client"
 import { Badge, Button , DropdownMenu, Text } from '@radix-ui/themes';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import React, { useEffect } from 'react';
+import useStoreSample from '@/app/(admin)/store/sample';
 
 
-interface Sample {
-  id: string;
-  title: string;
-  slug: string;
-  status: string;
-  body: string;
-  created_at: Date;
-}
+
+
+
 
 
 const AllSamplesPage = () => {
 
-  const [samples , setSamples] = useState<Sample[]>([]);
-  const [links , setLinks] = useState<PaginateLinks[]>([]);
-  const [currentPage , setCurrentPage] = useState<any>([]);
-  const [lastPage , setLastPage] = useState<string[]>([]);
-
-  const getAllSamples = async (page: number) => {
-    const response = await axios.get(`/api/work-sample?page=${page}`);
-    if(response.status == 200){
-      setSamples(response.data.data);
-      setLinks(response.data.links);
-      setCurrentPage(response.data.current_page);
-      setLastPage(response.data.last_page);
-    }
-  }
+  const { 
+    samples,
+    getAllSamples,
+    deleteSample,
+    currentPage,
+    lastPage,
+    links,
+  } = useStoreSample();
 
   const paginateHandler = (type: string , page = null) => {
     switch(type){
@@ -45,16 +33,6 @@ const AllSamplesPage = () => {
       break;
     }
   }
-
-  const deleteSample = async (sample: object , index: number) => {
-    const res = await axios.delete(`/api/work-sample/${sample.id}`);
-    if(res.status == 200){
-      const newArray = [...samples.slice(0, index), ...samples.slice(index + 1)];
-      setSamples(newArray);
-      toast.success('Sample has removed!')
-    }
-  }
-
 
   useEffect(()=> {
     getAllSamples(1);
@@ -136,7 +114,7 @@ const AllSamplesPage = () => {
 
       <div className="join mt-10">
         <button onClick={() => paginateHandler('prev')} className="bg-gray-100 join-item btn-md">prev</button>
-          {links.map((link , index) => (
+          {links && links.map((link , index) => (
             <button onClick={() => paginateHandler('setPage' , link.label)} className={`join-item btn-md ${currentPage == link.label && 'bg-slate-700 border-[1px] hover:scale-none bg-gray-100 h-4 hover:bg-slate-700 border-slate-800 !text-light-active'}`} key={index}>{link.label}</button>
           ))}
           <button onClick={() => paginateHandler('next')} className="bg-gray-100 join-item btn-md">next</button>
