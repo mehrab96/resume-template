@@ -1,7 +1,8 @@
 "use client"
-import { Badge, Button, ContextMenu , DropdownMenu, Text } from '@radix-ui/themes';
+import { Badge, Button , DropdownMenu, Text } from '@radix-ui/themes';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 
 interface Sample {
@@ -45,6 +46,14 @@ const AllSamplesPage = () => {
     }
   }
 
+  const deleteSample = async (sample: object , index: number) => {
+    const res = await axios.delete(`/api/work-sample/${sample.id}`);
+    if(res.status == 200){
+      const newArray = [...samples.slice(0, index), ...samples.slice(index + 1)];
+      setSamples(newArray);
+      toast.success('Sample has removed!')
+    }
+  }
 
 
   useEffect(()=> {
@@ -95,7 +104,12 @@ const AllSamplesPage = () => {
                 {sample.status == 0 ? <Badge className='!text-sm !py-1.5 !px-3.5' color="orange">pending</Badge> : <Badge className='!text-sm !py-1.5 !px-3.5' color="green">publish</Badge>}
               </td>
               <td>
-                { new Date(sample.created_at).toUTCString()}
+                { new Date(sample.created_at).toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })
+                }
               </td>
               <td>
               <DropdownMenu.Root>
@@ -108,7 +122,7 @@ const AllSamplesPage = () => {
                   <DropdownMenu.Item shortcut="⌘ E">Edit</DropdownMenu.Item>
                   <DropdownMenu.Item shortcut="⌘ D">Show</DropdownMenu.Item>
                   <DropdownMenu.Separator />
-                  <DropdownMenu.Item shortcut="⌘ ⌫" color="red">
+                  <DropdownMenu.Item onClick={() => deleteSample(sample , index)} shortcut="⌘ ⌫" color="red">
                     Delete
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>

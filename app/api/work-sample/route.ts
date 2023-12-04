@@ -28,7 +28,7 @@ export async function POST(req: NextRequest){
 
 
 export async function GET( request: NextResponse){
-    const searchParams = await request.nextUrl.searchParams
+    const searchParams = await request.nextUrl.searchParams;
     const page = await searchParams.get('page')
     try{
         const samples = await getPaginatedList('sample' , page , 8 , {
