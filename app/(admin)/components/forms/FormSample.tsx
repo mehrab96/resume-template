@@ -9,18 +9,18 @@ import { MdCloudUpload } from 'react-icons/md';
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
+import toast from 'react-hot-toast';
+import Spinner from './Spinner';
+
 
 type WorkSampleForm = z.infer<typeof WorkSamplesSchema>;
-
-
-
-
 
 const FormSample = () => {
 
         const [error , setError] = useState('');
         const [isSubmitting , setSubmitting] = useState(false);
         const [body , setBody] = useState('');
+        const [editorInstance , setEditorInstance] = useState('');
         const [status , setStatus] = useState('');
         const editorConfiguration = {
             toolbar: [
@@ -44,10 +44,10 @@ const FormSample = () => {
             ]
         };
 
-
         const {
             register,
             handleSubmit,
+            reset,
             formState : {errors}
           } = useForm<WorkSampleForm>({
             resolver: zodResolver(WorkSamplesSchema)
@@ -56,9 +56,11 @@ const FormSample = () => {
 
         const getEditorHandler = (editor: any) => {
             setBody(editor.getData());
+            setEditorInstance(editor);
         }
 
         const submitSample = handleSubmit(async (data) => {
+            setSubmitting(true);
             const response = await axios.post('/api/work-sample' , {
                 title : data.title,
                 slug : data.slug,
@@ -66,12 +68,20 @@ const FormSample = () => {
                 body : body,
             });
             if(response.status == 201){
-                console.log(response.data);
+                toast.success('Successfully created!');
+                resetForm();
             }
+            setSubmitting(false);
         });
         
     
-        
+        const resetForm = () => {
+            reset();
+            setBody('')
+            setBody('')
+            setStatus('')
+            editorInstance.setData('');
+        }
 
   return (
     <div>
@@ -130,11 +140,9 @@ const FormSample = () => {
                     </aside>
                 </Grid>
             </Grid>
-            
-            
-            <Button size="3" className='w-52 !mt-4 !cursor-pointer !bg-slate-800'>Store Sample</Button>
-            
-           
+            <Button  size="3" className='!mt-4 w-44 !cursor-pointer !text-light !bg-slate-800' disabled={isSubmitting}>{isSubmitting ?  (
+                <div className='flex items-center gap-3'><span className='flex text-base items-center'>processing</span><Spinner /></div>
+            ) : 'Store Sample'}</Button>
         </form>
     </div>
   )

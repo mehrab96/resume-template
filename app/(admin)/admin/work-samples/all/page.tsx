@@ -1,5 +1,5 @@
 "use client"
-import { Badge, ContextMenu , Text } from '@radix-ui/themes';
+import { Badge, Button, ContextMenu , DropdownMenu, Text } from '@radix-ui/themes';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
@@ -92,23 +92,27 @@ const AllSamplesPage = () => {
                 <div className="font-bold text-base">{sample.title}</div>
               </td>
               <td>
-                {sample.status == 0 ? <Badge className='!text-sm' color="orange">pending</Badge> : <Badge className='!text-sm' color="green">publish</Badge>}
+                {sample.status == 0 ? <Badge className='!text-sm !py-1.5 !px-3.5' color="orange">pending</Badge> : <Badge className='!text-sm !py-1.5 !px-3.5' color="green">publish</Badge>}
               </td>
               <td>
                 { new Date(sample.created_at).toUTCString()}
               </td>
               <td>
-              <ContextMenu.Root>
-                <ContextMenu.Trigger>
-                <Text className='text-sm font-semibold'>Details</Text>
-                </ContextMenu.Trigger>
-                <ContextMenu.Content>
-                  <ContextMenu.Item shortcut="⌘ E">Edit</ContextMenu.Item>
-                  <ContextMenu.Item shortcut="⌘ D">Show</ContextMenu.Item>
-                  <ContextMenu.Separator />
-                  <ContextMenu.Item shortcut="⌘ N">Delete</ContextMenu.Item>
-                </ContextMenu.Content>
-              </ContextMenu.Root>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger>
+                  <Button variant="soft">
+                    Options
+                  </Button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                  <DropdownMenu.Item shortcut="⌘ E">Edit</DropdownMenu.Item>
+                  <DropdownMenu.Item shortcut="⌘ D">Show</DropdownMenu.Item>
+                  <DropdownMenu.Separator />
+                  <DropdownMenu.Item shortcut="⌘ ⌫" color="red">
+                    Delete
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
 
               </td>
             </tr>

@@ -8,6 +8,7 @@ import { Box, Grid, Theme  } from '@radix-ui/themes';
 import SideBar from './components/SideBar';
 import Header from './components/Header';
 import AuthProvider from '../auth/AuthProvider';
+import { Toaster } from "react-hot-toast";
 
 
 // Initializing Inter font with Latin subset
@@ -42,6 +43,7 @@ export default function AdminLayout({
                 <Grid align="start" className='grid grid-cols-1 content-start items-start'>
                   <Header/>
                   <Box className='p-6'>
+                    <Toaster position="top-right" />
                     {children}
                   </Box>
                 </Grid>
