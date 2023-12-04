@@ -1,7 +1,8 @@
 import authOptions from "@/app/auth/authOptions";
+import { getPaginatedList } from "@/app/helper/pagination/pagination";
 import prisma from "@/prisma/client";
 import { getServerSession } from "next-auth";
-import {NextRequest , NextResponse} from "next/server";
+import {type NextRequest ,  NextResponse} from "next/server";
 
 export async function POST(req: NextRequest){
     const body = await req.json();
@@ -23,10 +24,24 @@ export async function POST(req: NextRequest){
     }catch(error){
         return NextResponse.json(error , {status:501});
     }
-
-    
-    
-
 }
 
 
+export async function GET( request: NextResponse){
+    const searchParams = await request.nextUrl.searchParams
+    const page = await searchParams.get('page')
+    try{
+        const samples = await getPaginatedList('sample' , page , 8 , {
+            include : {
+                user : true
+            },
+            orderBy: {
+                id: 'desc',
+            },
+        })
+        return NextResponse.json(samples, {status: 200});
+    }catch(error){
+        return NextResponse.json(error, {status: 500});
+    }
+
+}
