@@ -17,6 +17,7 @@ interface Sample {
     slug: string;
     status: string;
     body: string;
+    image: string;
     created_at: Date;
 }
 

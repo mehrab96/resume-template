@@ -4,11 +4,6 @@ import React, { useEffect } from 'react';
 import useStoreSample from '@/app/(admin)/store/sample';
 
 
-
-
-
-
-
 const AllSamplesPage = () => {
 
   const { 
@@ -70,7 +65,7 @@ const AllSamplesPage = () => {
                 <div className="flex items-center gap-3">
                   <div className="avatar">
                     <div className="mask !rounded-lg w-20 h-20">
-                      <img src="/images/imagenotfound.webp" alt={sample?.title}/>
+                      <img src={sample.image ? sample.image : '/images/imagenotfound.webp'} alt={sample?.title}/>
                     </div>                               
                   </div>
                 </div>

@@ -19,6 +19,7 @@ interface GalleryStore {
     getAllGalleries: (page: number) => void;
     deleteGallery: (gallery: Gallery , index: number) => void;
     setSelectedGalleries: (gallery: Gallery , multiple : boolean) => void;
+    setEmptySelectedGalleries: () => void;
 }
   
 const useStoreGallery = create<GalleryStore>((set) => ({
@@ -90,6 +91,11 @@ const useStoreGallery = create<GalleryStore>((set) => ({
             }
         }              
     },
+    setEmptySelectedGalleries: () => {
+        set(() => ({
+            selectedGalleries: []
+        }));
+    }
 }));
 
 export default useStoreGallery;

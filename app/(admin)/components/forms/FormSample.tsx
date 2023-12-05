@@ -46,7 +46,8 @@ const FormSample = () => {
 
         const {
             setModal,
-            selectedGalleries
+            selectedGalleries,
+            setEmptySelectedGalleries
         } = useStoreGallery();
 
         const {
@@ -71,9 +72,12 @@ const FormSample = () => {
                 slug : data.slug,
                 status : status,
                 body : body,
+                image : selectedGalleries[0]?.url ? selectedGalleries[0]?.url : '',
             });
             if(response.status == 201){
                 toast.success('Successfully created!');
+                console.log(response.data);
+                
                 resetForm();
             }
             setSubmitting(false);
@@ -84,7 +88,8 @@ const FormSample = () => {
             reset();
             setBody('')
             setBody('')
-            setStatus('')
+            setBody('')
+            setEmptySelectedGalleries()
             editorInstance.setData('');
         }
 

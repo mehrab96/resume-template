@@ -78,6 +78,7 @@ model Sample {
   title      String?
   slug       String?
   body       String?   @db.Text
+  image      String?   @db.Text
   status     Boolean?  @default(false)
   created_at DateTime  @default(now())
   updated_at DateTime?

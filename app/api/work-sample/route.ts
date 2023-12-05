@@ -9,7 +9,6 @@ export async function POST(req: NextRequest){
 
     const session = await getServerSession(authOptions);
     const user = await prisma.user.findFirst({ where: { email: session?.user?.email } });
-
     try{
         const sample = await prisma.sample.create({
             data: {
@@ -17,6 +16,7 @@ export async function POST(req: NextRequest){
                 body : body.body,
                 status : body.status == '0' ? false : true,
                 slug : body.slug,
+                image : body.image  ,
                 userId: user ? user.id : ''
             }
         });
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest){
 
 export async function GET( request: NextResponse){
     const searchParams = await request.nextUrl.searchParams;
-    const page = await searchParams.get('page')
+    const page = await searchParams.get('page');
     try{
         const samples = await getPaginatedList('sample' , page , 8 , {
             include : {
