@@ -1,10 +1,12 @@
 import {NextRequest , NextResponse} from "next/server";
 import { getPaginatedList } from "@/app/helper/pagination/pagination";
 
-export async function POST(req: NextRequest){
-    const body = await req.json();
+export async function GET(req: NextResponse){
+    const searchParams = await req.nextUrl.searchParams;
+    const page = await searchParams.get('page');
+
     try{
-        const galleries = await getPaginatedList('gallery' , body.page , 8 , {
+        const galleries = await getPaginatedList('gallery' , page , 8 , {
             include : {
                 user : true
             },

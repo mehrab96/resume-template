@@ -11,16 +11,16 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import Spinner from './Spinner';
-
+import ModalGallery from '../gallery/ModalGallery';
+import useStoreGallery from '../../store/gallery';
 
 type WorkSampleForm = z.infer<typeof WorkSamplesSchema>;
 
 const FormSample = () => {
 
-        const [error , setError] = useState('');
         const [isSubmitting , setSubmitting] = useState(false);
         const [body , setBody] = useState('');
-        const [editorInstance , setEditorInstance] = useState('');
+        const [editorInstance , setEditorInstance]= useState<any>(undefined);
         const [status , setStatus] = useState('');
         const editorConfiguration = {
             toolbar: [
@@ -43,6 +43,11 @@ const FormSample = () => {
                 'redo'
             ]
         };
+
+        const {
+            setModal,
+            selectedGalleries
+        } = useStoreGallery();
 
         const {
             register,
@@ -130,12 +135,21 @@ const FormSample = () => {
                 </Grid>
                 <Grid>
                     <aside className='w-[26rem]'>
-                        <div className="h-52 border-[1.5px] grid justify-center border-dashed text-center content-center items-center rounded-md dark:border-gray-300 border-gray-300">                    
-                            <div className="bg-gray-100 p-4 w-10 h-10 m-auto rounded-md grid items-center content-center justify-center">
-                               <MdCloudUpload className="flex text-2xl" />
-                            </div>
-                            <p className="pt-3 font-bold text-sm opacity-90 dark:text-text-light">Click and choose your photo</p>
-                            <p className="pt-1 font-medium text-xs opacity-70 dark:text-text-light">You can upload new image whenever modal has opened</p>
+                        <div onClick={() => setModal()} className="h-52 border-[1.5px] grid justify-center border-dashed text-center content-center items-center rounded-md dark:border-gray-300 border-gray-300">                    
+                            {!selectedGalleries.length && (
+                                <div>
+                                    <div className="bg-gray-100 p-4 w-10 h-10 m-auto rounded-md grid items-center content-center justify-center">
+                                    <MdCloudUpload className="flex text-2xl" />
+                                    </div>
+                                    <p className="pt-3 font-bold text-sm opacity-90 dark:text-text-light">Click and choose your photo</p>
+                                    <p className="pt-1 font-medium text-xs opacity-70 dark:text-text-light">You can upload new image whenever modal has opened</p>
+                                </div>
+                            )}
+                            {selectedGalleries.length >= 1 && (
+                                <figure className='max-h-40 w-auto'>
+                                    <img className='w-auto object-contain max-h-40' src={selectedGalleries[0]?.url} alt="" />
+                                </figure>
+                            )}
                         </div>
                     </aside>
                 </Grid>
@@ -144,6 +158,8 @@ const FormSample = () => {
                 <div className='flex items-center gap-3'><span className='flex text-base items-center'>processing</span><Spinner /></div>
             ) : 'Store Sample'}</Button>
         </form>
+
+        <ModalGallery multiple={false} />
     </div>
   )
 }

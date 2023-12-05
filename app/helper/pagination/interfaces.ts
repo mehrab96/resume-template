@@ -19,3 +19,13 @@ interface Sample {
     body: string;
     created_at: Date;
 }
+
+interface Gallery {
+    id: number;
+    url: string;
+    path: string;
+    name: string;
+    format: string;
+    size: number;
+    created_at: Date;
+}

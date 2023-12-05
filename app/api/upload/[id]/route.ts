@@ -2,11 +2,12 @@ import prisma from "@/prisma/client";
 import { unlink } from "fs";
 import {NextRequest , NextResponse} from "next/server";
 
-export async function POST(request: NextRequest){
+export async function DELETE( request: NextRequest ,
+    { params }: { params: { id: string } }){
 
-    const data = await request.json();
+   const id = params.id;
 
-    const gallery = await prisma.gallery.findFirst({where: {id : data.id}})
+    const gallery = await prisma.gallery.findFirst({where: {id : parseInt(id)}})
    
     if(gallery){
         unlink(gallery?.path! , (error) => {
@@ -15,7 +16,7 @@ export async function POST(request: NextRequest){
               }
         });
         await prisma.gallery.delete({
-            where: { id: data.id },
+            where: { id: parseInt(id) },
         });
 
         return NextResponse.json("File removed successfully" , {status: 200});

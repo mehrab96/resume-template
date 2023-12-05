@@ -11,3 +11,6 @@
 .ck , .ck-content{
     @apply h-64;
 }
+.tabActive{
+    @apply !bg-slate-700 !text-light;
+}
