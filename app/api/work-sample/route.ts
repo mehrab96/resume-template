@@ -16,8 +16,8 @@ export async function POST(req: NextRequest){
                 body : body.body,
                 status : body.status == '0' ? false : true,
                 slug : body.slug,
-                image : body.image  ,
-                userId: user?.id  ? user?.id : undefined
+                image : body.image ? body.image : '' ,
+                userId: user?.id  ? user?.id : 0
             }
         });
         return NextResponse.json( sample , {status : 201})
