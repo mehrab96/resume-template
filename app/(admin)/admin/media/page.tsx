@@ -19,7 +19,7 @@ const MediaPage = () => {
         <UploadForm/>
       )}
         <div className='mt-8'>
-          <ShowAllGalleries/>
+          <ShowAllGalleries multiple={false}/>
         </div>
     </div>
   )

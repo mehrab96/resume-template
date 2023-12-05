@@ -1,5 +1,5 @@
 interface PaginateLinks {
-    label: number;
+    label: string;
     page: number;
 }
 

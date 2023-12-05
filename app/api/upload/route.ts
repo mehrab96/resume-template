@@ -7,12 +7,6 @@ import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
 
 
-export const config = {
-    api : {
-        bodyParser : false
-    }
-}
-
 export async function POST(req: NextRequest){
     const data = await req.formData();
     const file: File | null = data.get('file') as File;
@@ -43,7 +37,7 @@ export async function POST(req: NextRequest){
                 format : file.type,
                 path : destinationPath,
                 url : "/uploads/" + file.name,
-                userId: user ? user.id : ''
+                userId: user?.id  ? user?.id : undefined
             }
         });
          return NextResponse.json(newGallery , {status: 200});

@@ -1,17 +1,17 @@
-import { create ,useStore } from 'zustand'
+import { create } from 'zustand'
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
 interface GalleryStore {
     galleries: Gallery[];
-    links: string[];
+    links: PaginateLinks[];
     selectedGalleries: Gallery[];
     showModal: any;
     loader: boolean;
     currentPage: number;
     lastPage: number;
     setGalleries: (galleries: Gallery[]) => void;
-    setLinks: (links: string[]) => void;
+    setLinks: (links: PaginateLinks[]) => void;
     setCurrentPage: (page: number) => void;
     setLoader: (loader: boolean) => void;
     setModal: () => void;
@@ -61,7 +61,7 @@ const useStoreGallery = create<GalleryStore>((set) => ({
             toast.success('Your file has removed!')
         }
     },
-    setModal: () => document.getElementById('my_modal_2').showModal(),
+    setModal: () => '',
     setSelectedGalleries : (gallery , multiple) => {
 
         if(multiple){

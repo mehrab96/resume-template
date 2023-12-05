@@ -1,10 +1,6 @@
 import prisma from "@/prisma/client";
 import {type NextRequest ,  NextResponse} from "next/server";
 
-interface WorkSampleQuery {
-    id: string; // Assuming 'id' is a string, adjust it based on your requirements
-  }
-
 export async function DELETE( request: NextRequest ,
      { params }: { params: { id: string } }){
 

@@ -5,15 +5,15 @@ import { create } from 'zustand'
 
 interface SamplesStore {
   samples: Sample[];
-  links: string[];
+  links: PaginateLinks[];
   currentPage: number;
   lastPage: number;
   setSamples: (samples: Sample[]) => void;
-  setLinks: (links: string[]) => void;
+  setLinks: (links: PaginateLinks[]) => void;
   setCurrentPage: (page: number) => void;
   setLastPage: (page: number) => void;
   getAllSamples: (page: number) => void;
-  deleteSample: (sample: Sample[] , index: number) => void;
+  deleteSample: (sample: Sample , index: number) => void;
 }
   
   const useStoreSample = create<SamplesStore>((set) => ({
@@ -22,10 +22,10 @@ interface SamplesStore {
     currentPage: 1,
     lastPage: 1,
     setSamples: (samples) => set({ samples }),
-    setLinks: (links) => set({ links }),
+    setLinks: (links) => set({ links  }),
     setCurrentPage: (page) => set({ currentPage: page }),
     setLastPage: (page) => set({ lastPage: page }),
-    getAllSamples: async (page) => {
+    getAllSamples: async (page : number) => {
       try {
         const response = await axios.get(`/api/work-sample?page=${page}`);
         if (response.status === 200) {

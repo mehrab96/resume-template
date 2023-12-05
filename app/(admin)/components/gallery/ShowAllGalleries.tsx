@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import useStoreGallery from '../../store/gallery'
 
 interface Props {
-    multiple : boolean | null
+    multiple : boolean
 }
 
 const ShowAllGalleries = ({multiple} : Props) => {
@@ -20,13 +20,13 @@ const ShowAllGalleries = ({multiple} : Props) => {
         deleteGallery,
     } = useStoreGallery();
 
-    const paginateHandler = (type: string , page = null) => {
+    const paginateHandler = (type: string , page : number = 1) => {
         switch(type){
             case 'prev' : 
-            if(currentPage > 1) getAllGalleries(parseInt(currentPage) - 1)
+            if(currentPage > 1) getAllGalleries(parseInt(currentPage.toString()) - 1)
             break;
             case 'next' : 
-            if(currentPage < lastPage) getAllGalleries(parseInt(currentPage) + 1)
+            if(currentPage < lastPage) getAllGalleries(parseInt(currentPage.toString()) + 1)
             break;
             case 'setPage' : 
             if(currentPage <= lastPage && currentPage >= 1) getAllGalleries(page)
@@ -65,7 +65,7 @@ const ShowAllGalleries = ({multiple} : Props) => {
         <div className="join mt-10">
         <button onClick={() => paginateHandler('prev')} className="join-item btn">prev</button>
             {links.map((link , index) => (
-            <button onClick={() => paginateHandler('setPage' , link.label)} className={`join-item btn ${currentPage == link.label && 'bg-slate-700 border-[1px] hover:scale-none hover:bg-slate-700 border-slate-800 !text-light-active'}`} key={index}>{link.label}</button>
+            <button onClick={() => paginateHandler('setPage' , link.page)} className={`join-item btn ${currentPage == link.page && 'bg-slate-700 border-[1px] hover:scale-none hover:bg-slate-700 border-slate-800 !text-light-active'}`} key={index}>{link.label}</button>
             ))}
             <button onClick={() => paginateHandler('next')} className="join-item btn">next</button>
         </div>          

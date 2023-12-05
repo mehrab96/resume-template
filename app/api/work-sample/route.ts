@@ -17,7 +17,7 @@ export async function POST(req: NextRequest){
                 status : body.status == '0' ? false : true,
                 slug : body.slug,
                 image : body.image  ,
-                userId: user ? user.id : ''
+                userId: user?.id  ? user?.id : undefined
             }
         });
         return NextResponse.json( sample , {status : 201})
@@ -27,19 +27,34 @@ export async function POST(req: NextRequest){
 }
 
 
-export async function GET( request: NextResponse){
-    const searchParams = await request.nextUrl.searchParams;
-    const page = await searchParams.get('page');
+export async function GET( request: NextRequest){
+    const searchParams : any = await request.nextUrl.searchParams;
+    const page : number = await searchParams.get('page');
+    const pageSize: number = 3;
     try{
-        const samples = await getPaginatedList('sample' , page , 8 , {
+        const skip = (page - 1) * pageSize;
+        const total = await prisma.sample.count();
+        const last_page = Math.ceil(total / pageSize);
+        const samples = await prisma.sample.findMany({
+            skip,
+            take: pageSize,
             include : {
                 user : true
             },
             orderBy: {
                 id: 'desc',
             },
-        })
-        return NextResponse.json(samples, {status: 200});
+        });
+        const links = await getPaginatedList(page , last_page);
+
+        const result = {
+            data: samples,
+            total,
+            last_page,
+            current_page: page,
+            links,
+        };
+        return NextResponse.json(result, {status: 200});
     }catch(error){
         return NextResponse.json(error, {status: 500});
     }

@@ -1,8 +1,7 @@
 "use client"
-import { Badge, Button , DropdownMenu, Text } from '@radix-ui/themes';
+import { Badge, Button , DropdownMenu } from '@radix-ui/themes';
 import React, { useEffect } from 'react';
 import useStoreSample from '@/app/(admin)/store/sample';
-
 
 const AllSamplesPage = () => {
 
@@ -15,13 +14,13 @@ const AllSamplesPage = () => {
     links,
   } = useStoreSample();
 
-  const paginateHandler = (type: string , page = null) => {
+  const paginateHandler = (type: string , page: number = 0) => {
     switch(type){
       case 'prev' : 
-      if(currentPage > 1) getAllSamples(currentPage - 1)
+      if(currentPage > 1) getAllSamples(parseInt(currentPage.toString()) - 1)
       break;
       case 'next' : 
-      if(currentPage < lastPage) getAllSamples(currentPage + 1)
+      if(currentPage < lastPage) getAllSamples(parseInt(currentPage.toString()) + 1)
       break;
       case 'setPage' : 
       if(currentPage <= lastPage && currentPage >= 1) getAllSamples(page)
@@ -54,7 +53,7 @@ const AllSamplesPage = () => {
           </tr>
         </thead>
         <tbody>    
-          {samples.map((sample , index) => (
+          {samples && samples.map((sample , index) => (
             <tr className='border-b-gray-100' key={index}>
               <td>
                 <label>
@@ -74,7 +73,7 @@ const AllSamplesPage = () => {
                 <div className="font-bold text-base">{sample.title}</div>
               </td>
               <td>
-                {sample.status == 0 ? <Badge className='!text-sm !py-1.5 !px-3.5' color="orange">pending</Badge> : <Badge className='!text-sm !py-1.5 !px-3.5' color="green">publish</Badge>}
+                {sample.status == "0" ? <Badge className='!text-sm !py-1.5 !px-3.5' color="orange">pending</Badge> : <Badge className='!text-sm !py-1.5 !px-3.5' color="green">publish</Badge>}
               </td>
               <td>
                 { new Date(sample.created_at).toLocaleString('en-US', {
@@ -110,7 +109,7 @@ const AllSamplesPage = () => {
       <div className="join mt-10">
         <button onClick={() => paginateHandler('prev')} className="bg-gray-100 join-item btn-md">prev</button>
           {links && links.map((link , index) => (
-            <button onClick={() => paginateHandler('setPage' , link.label)} className={`join-item btn-md ${currentPage == link.label && 'bg-slate-700 border-[1px] hover:scale-none bg-gray-100 h-4 hover:bg-slate-700 border-slate-800 !text-light-active'}`} key={index}>{link.label}</button>
+            <button onClick={() => paginateHandler('setPage' , link.page)} className={`join-item btn-md ${currentPage == link.page && 'bg-slate-700 border-[1px] hover:scale-none h-4 hover:bg-slate-700 border-slate-800 !text-light-active'}`} key={index}>{link.label}</button>
           ))}
           <button onClick={() => paginateHandler('next')} className="bg-gray-100 join-item btn-md">next</button>
       </div>
