@@ -43,7 +43,7 @@ export default function RootLayout({
               {/* User profile image */}
               <figure className="w-44 h-44 overflow-hidden m-auto rounded-[1.5rem]">
               <Image
-                src="/images/image not found.webp"
+                src="/images/imagenotfound.webp"
                 width={500}
                 height={500}
                 alt="Picture of the author"
