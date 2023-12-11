@@ -18,8 +18,8 @@ export async function POST(req: NextRequest){
     const bytes = await file.arrayBuffer();
     const buffer =  Buffer.from(bytes);
 
-    const dir = join(process.cwd(), 'public', 'uploads');
-    const destinationPath = join(process.cwd(), 'public', 'uploads', file.name);
+    const dir = join(process.cwd(), 'public', 'assets/uploads');
+    const destinationPath = join(process.cwd(), 'public', 'assets/uploads', file.name);
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
     }
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest){
                 size : file.size,
                 format : file.type,
                 path : destinationPath,
-                url : "/uploads/" + file.name,
+                url : "/assets/uploads/" + file.name,
                 userId: user?.id  ? user?.id : undefined
             }
         });
