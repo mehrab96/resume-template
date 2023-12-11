@@ -28,7 +28,7 @@ export async function POST(req: NextRequest){
 
     try{
         const session = await getServerSession(authOptions);
-        const user = await prisma.user.findFirst({ where: { email: session?.user?.email } });
+        const user = await prisma.user.findFirst({ where: { email: session?.user?.email ? session?.user?.email : '' } });
 
         const newGallery = await prisma.gallery.create({
             data: {

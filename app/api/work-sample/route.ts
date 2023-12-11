@@ -8,7 +8,13 @@ export async function POST(req: NextRequest){
     const body = await req.json();
 
     const session = await getServerSession(authOptions);
-    const user = await prisma.user.findFirst({ where: { email: session?.user?.email } });
+    if (!session)
+        return NextResponse.json('Undefind user' , {status:401});
+
+    const user = await prisma.user.findUnique(
+        { where: { email: session?.user?.email ? session.user.email : '' } 
+    });
+    
     try{
         const sample = await prisma.sample.create({
             data: {
@@ -17,7 +23,7 @@ export async function POST(req: NextRequest){
                 status : body.status == '0' ? false : true,
                 slug : body.slug,
                 image : body.image ? body.image : '' ,
-                userId: user?.id  ? user?.id : 0
+                userId: user?.id
             }
         });
         return NextResponse.json( sample , {status : 201})

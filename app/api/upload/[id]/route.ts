@@ -7,7 +7,7 @@ export async function DELETE( request: NextRequest ,
 
    const id = params.id;
 
-    const gallery = await prisma.gallery.findFirst({where: {id : parseInt(id)}})
+    const gallery = await prisma.gallery.findFirst({where: {id : id}})
    
     if(gallery){
         unlink(gallery?.path! , (error) => {
@@ -16,7 +16,7 @@ export async function DELETE( request: NextRequest ,
               }
         });
         await prisma.gallery.delete({
-            where: { id: parseInt(id) },
+            where: { id: id },
         });
 
         return NextResponse.json("File removed successfully" , {status: 200});
