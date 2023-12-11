@@ -6,49 +6,45 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model Account {
-  id                String  @id @default(cuid())
-  userId            Int?
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String? @db.ObjectId
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
 
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id           Int      @id @default(autoincrement())
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String?  @db.ObjectId
   sessionToken String   @unique
-  userId       Int
   expires      DateTime
   user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
-  identifier String
+  identifier String   @id @default(auto()) @map("_id") @db.ObjectId
   token      String   @unique
   expires    DateTime
-
-  @@unique([identifier, token])
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
-  name          String?
-  email         String?   @unique
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  email         String   @unique
   emailVerified DateTime?
   password      String?
   image         String?
@@ -59,26 +55,26 @@ model User {
 }
 
 model Gallery {
-  id         Int       @id @default(autoincrement())
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
   user       User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     Int?
+  userId     String?   @db.ObjectId
   name       String?
   format     String?
   size       Int?
-  path       String?   @db.Text
-  url        String?   @db.Text
+  path       String?
+  url        String?
   created_at DateTime  @default(now())
   updated_at DateTime?
 }
 
 model Sample {
-  id         Int       @id @default(autoincrement())
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
   user       User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     Int?
+  userId     String?   @db.ObjectId
   title      String?
   slug       String?
-  body       String?   @db.Text
-  image      String?   @db.Text
+  body       String?
+  image      String?
   status     Boolean?  @default(false)
   created_at DateTime  @default(now())
   updated_at DateTime?

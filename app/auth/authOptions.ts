@@ -14,13 +14,14 @@ const authOptions: NextAuthOptions = {
             password: { label: "Password", type: "password" },
         },
         async authorize(credentials: any)  {
-            const body = credentials;
+            const body = await credentials;
+            
             // check to see if email and password is there
             if(!body?.email || !body.password) {
                 throw new Error('Please enter an email and password')
             }
             // check to see if user exists
-            const user: any  = await prisma.user.findUnique({
+            const user: any  = await prisma.user.findFirst({
                 where: {
                     email: body.email
                 }
