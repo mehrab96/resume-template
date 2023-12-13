@@ -18,8 +18,8 @@ export async function POST(req: NextRequest){
     const bytes = await file.arrayBuffer();
     const buffer =  Buffer.from(bytes);
 
-    const dir = join(process.cwd(), 'public', 'assets/uploads');
-    const destinationPath = join(process.cwd(), 'public', 'assets/uploads', file.name);
+    const dir = join(process.cwd(), 'public', 'upload');
+    const destinationPath = join(process.cwd(), 'public', 'upload', file.name);
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
     }
@@ -36,8 +36,8 @@ export async function POST(req: NextRequest){
                 size : file.size,
                 format : file.type,
                 path : destinationPath,
-                url : "/assets/uploads/" + file.name,
-                userId: user?.id  ? user?.id : undefined
+                url : "/upload/" + file.name,
+                userId: user?.id
             }
         });
          return NextResponse.json(newGallery , {status: 200});

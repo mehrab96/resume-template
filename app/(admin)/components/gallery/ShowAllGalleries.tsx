@@ -1,7 +1,8 @@
 "use client";
 import { Grid } from '@radix-ui/themes'
 import React, { useEffect } from 'react'
-import useStoreGallery from '../../store/gallery'
+import useStoreGallery from '../../store/gallery';
+import Image from 'next/image'
 
 interface Props {
     multiple : boolean
@@ -48,7 +49,9 @@ const ShowAllGalleries = ({multiple} : Props) => {
             className={`card bg-base-100 border-2
              border-transparent shadow-xl 
              ${selectedGalleries.some(g => g.id == file.id) ? '!border-teal-600' : '' }`}>
-            <figure className='h-[12rem]'><img className='w-full h-full object-cover' src={file.url} alt={file.name} /></figure>
+            <figure className='h-[12rem]'>
+                <Image className='w-full h-full object-cover' src={file.url} alt={file.name} />
+                </figure>
             <div className="px-4 py-3 w-full grid gap-1 grid-cols-1">
             <div className="font-bold w-full truncate !text-[.85rem]">{file.name}</div>                    
             <div className="font-bold truncate !text-[.85rem]">format: <span>{file.format}</span></div>                    
