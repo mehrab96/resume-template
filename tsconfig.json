@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "prisma/client.ts", "ecosystem.config.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "prisma/client.ts", "ecosystem.config.js", "app/api/upload/image/[image]/route.ts"],
   "exclude": ["node_modules"]
 }

@@ -61,7 +61,7 @@ const useStoreGallery = create<GalleryStore>((set) => ({
             toast.success('Your file has removed!')
         }
     },
-    setModal: () => '',
+    setModal: () => document.getElementById('my_modal_2').showModal(),
     setSelectedGalleries : (gallery , multiple) => {
 
         if(multiple){

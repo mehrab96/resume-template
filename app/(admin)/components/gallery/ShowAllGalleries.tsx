@@ -50,8 +50,8 @@ const ShowAllGalleries = ({multiple} : Props) => {
              border-transparent shadow-xl 
              ${selectedGalleries.some(g => g.id == file.id) ? '!border-teal-600' : '' }`}>
             <figure className='h-[12rem]'>
-                <Image className='w-full h-full object-cover' src={file.url} alt={file.name} />
-                </figure>
+                {file.url && <img className='w-full h-full object-cover' src={file.url} alt={file.name} />}
+            </figure>
             <div className="px-4 py-3 w-full grid gap-1 grid-cols-1">
             <div className="font-bold w-full truncate !text-[.85rem]">{file.name}</div>                    
             <div className="font-bold truncate !text-[.85rem]">format: <span>{file.format}</span></div>                    

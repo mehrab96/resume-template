@@ -27,7 +27,7 @@ interface SamplesStore {
     setLastPage: (page) => set({ lastPage: page }),
     getAllSamples: async (page : number) => {
       try {
-        const response = await axios.get(`/api/work-sample?page=${page}`);
+        const response = await axios.get(`/api/work-sample/all?page=${page}`);
         if (response.status === 200) {
           set({
             samples: response.data.data,
