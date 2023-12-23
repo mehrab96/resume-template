@@ -21,7 +21,7 @@ const FormSample = () => {
         const [isSubmitting , setSubmitting] = useState(false);
         const [body , setBody] = useState('');
         const [editorInstance , setEditorInstance]= useState<any>(undefined);
-        const [status , setStatus] = useState('');
+        const [status , setStatus] = useState("0");
         const editorConfiguration = {
             toolbar: [
                 'heading',
@@ -77,7 +77,6 @@ const FormSample = () => {
             if(response.status == 201){
                 toast.success('Successfully created!');
                 console.log(response.data);
-                
                 resetForm();
             }
             setSubmitting(false);
@@ -87,8 +86,7 @@ const FormSample = () => {
         const resetForm = () => {
             reset();
             setBody('')
-            setBody('')
-            setBody('')
+            setStatus("0")
             setEmptySelectedGalleries()
             editorInstance.setData('');
         }
@@ -122,7 +120,7 @@ const FormSample = () => {
                         }
                     </Grid>
                     <Grid>
-                        <Select.Root size="3" onValueChange={(value) => setStatus(value)}  defaultValue="0">
+                        <Select.Root size="3" onValueChange={(value) => setStatus(value)} value={status}  defaultValue={status}>
                         <Select.Trigger />
                         <Select.Content position="popper">
                             <Select.Item value="0">pending</Select.Item>

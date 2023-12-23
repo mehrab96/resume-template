@@ -8,8 +8,10 @@ interface SamplesStore {
   links: PaginateLinks[];
   currentPage: number;
   lastPage: number;
+  loader: boolean;
   setSamples: (samples: Sample[]) => void;
   setLinks: (links: PaginateLinks[]) => void;
+  setLoader: (loader: boolean) => void;
   setCurrentPage: (page: number) => void;
   setLastPage: (page: number) => void;
   getAllSamples: (page: number) => void;
@@ -21,12 +23,15 @@ interface SamplesStore {
     links: [],
     currentPage: 1,
     lastPage: 1,
+    loader: false,
     setSamples: (samples) => set({ samples }),
     setLinks: (links) => set({ links  }),
+    setLoader: (loader) => set({ loader }),
     setCurrentPage: (page) => set({ currentPage: page }),
     setLastPage: (page) => set({ lastPage: page }),
     getAllSamples: async (page : number) => {
       try {
+        set({loader : true})
         const response = await axios.get(`/api/work-sample/all?page=${page}`);
         if (response.status === 200) {
           set({
@@ -34,6 +39,7 @@ interface SamplesStore {
             links: response.data.links,
             currentPage: response.data.current_page,
             lastPage: response.data.last_page,
+            loader: false,
           });
         }
       } catch (error) {

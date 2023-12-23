@@ -2,7 +2,7 @@
 import { Grid } from '@radix-ui/themes'
 import React, { useEffect } from 'react'
 import useStoreGallery from '../../store/gallery';
-import Image from 'next/image'
+import { Skeleton } from '../packages/packagesUi';
 
 interface Props {
     multiple : boolean
@@ -10,11 +10,13 @@ interface Props {
 
 const ShowAllGalleries = ({multiple} : Props) => {
 
+    const items: number[] = [1,2,3,4,5,6,7,8];
     const {
         currentPage,
         lastPage,
         selectedGalleries,
         setSelectedGalleries,
+        loader,
         links,
         galleries,
         getAllGalleries,
@@ -44,7 +46,7 @@ const ShowAllGalleries = ({multiple} : Props) => {
   return (
     <div>
         <Grid gap="4" columns="4">
-        {galleries && galleries.map((file , index) => (
+        {!loader && galleries.map((file , index) => (
             <div onClick={() => setSelectedGalleries(file , multiple)} key={index} 
             className={`card bg-base-100 border-2
              border-transparent shadow-xl 
@@ -62,6 +64,8 @@ const ShowAllGalleries = ({multiple} : Props) => {
             </div>
         </div>
         ))}
+        
+        { loader  && items.map((item, index) => <Skeleton key={index} height="20rem"/>)}
         </Grid>
         <Grid>
             

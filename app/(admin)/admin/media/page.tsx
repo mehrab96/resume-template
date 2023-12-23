@@ -3,6 +3,8 @@ import React from 'react'
 import useStoreGallery from '../../store/gallery';
 import UploadForm from '../../components/gallery/Upload';
 import ShowAllGalleries from '../../components/gallery/ShowAllGalleries';
+import { Skeleton } from '../../components/packages/packagesUi';
+
 
 const MediaPage = () => {
 
@@ -14,7 +16,7 @@ const MediaPage = () => {
   return (
     <div>
        {loader ? (
-        <p>Loading...</p>
+        <Skeleton height="12rem"/>
       ) : (
         <UploadForm/>
       )}

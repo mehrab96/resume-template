@@ -2,14 +2,16 @@
 import { Badge, Button , DropdownMenu } from '@radix-ui/themes';
 import React, { useEffect } from 'react';
 import useStoreSample from '@/app/(admin)/store/sample';
+import { Skeleton } from '@/app/(admin)/components/packages/packagesUi';
 
 const AllSamplesPage = () => {
-
+  const items: number[] = [1,2,3,4,5,6];
   const { 
     samples,
     getAllSamples,
     deleteSample,
     currentPage,
+    loader,
     lastPage,
     links,
   } = useStoreSample();
@@ -35,8 +37,8 @@ const AllSamplesPage = () => {
  
 
   return (
-    <div className="!bg-white p-6 rounded-3xl shadow-[0_0_30px_rgba(0,0,0,0.06)]">
-      <table className="table">
+    <div className="!bg-white p-3 rounded-3xl shadow-[0_0_30px_rgba(0,0,0,0.03)]">
+      <table className="table w-full">
         {/* head */}
         <thead>
           <tr className='text-sm border-b-gray-200 font-bold'>
@@ -53,7 +55,7 @@ const AllSamplesPage = () => {
           </tr>
         </thead>
         <tbody>    
-          {samples && samples.map((sample , index) => (
+          {!loader && samples.map((sample , index) => (
             <tr className='border-b-gray-100' key={index}>
               <td>
                 <label>
@@ -86,7 +88,7 @@ const AllSamplesPage = () => {
               <td>
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
-                  <Button variant="soft">
+                  <Button variant="soft" className='!cursor-pointer'>
                     Options
                   </Button>
                 </DropdownMenu.Trigger>
@@ -99,20 +101,31 @@ const AllSamplesPage = () => {
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>
               </DropdownMenu.Root>
-
               </td>
             </tr>
           ) )}
+          {loader && items.map((item , index) => 
+            <tr className='border-b-gray-100' key={index}>
+              <td><Skeleton className='w-full' inline height="4rem"/></td> 
+              <td><Skeleton className='w-full' inline height="4rem"/></td> 
+              <td><Skeleton className='w-full' inline height="4rem"/></td> 
+              <td><Skeleton className='w-full' inline height="4rem"/></td> 
+              <td><Skeleton className='w-full' inline height="4rem"/></td>
+               <td><Skeleton className='w-full' inline height="4rem"/></td>
+            </tr>
+          )}
         </tbody>
       </table>
 
-      <div className="join mt-10">
+      {!loader && lastPage > 1 && (
+        <div className="join mt-10">
         <button onClick={() => paginateHandler('prev')} className="bg-gray-100 join-item btn-md">prev</button>
           {links && links.map((link , index) => (
             <button onClick={() => paginateHandler('setPage' , link.page)} className={`join-item btn-md ${currentPage == link.page && 'bg-slate-700 border-[1px] hover:scale-none h-4 hover:bg-slate-700 border-slate-800 !text-light-active'}`} key={index}>{link.label}</button>
           ))}
           <button onClick={() => paginateHandler('next')} className="bg-gray-100 join-item btn-md">next</button>
       </div>
+      )}
     </div>
   )
 }
