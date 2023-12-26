@@ -30,7 +30,7 @@ const session = await getServerSession(authOptions);
                    <span>{session?.user?.email}</span>
                 </li>
                 <li><a>Settings</a></li>
-                <li><a>Logout</a></li>
+                <li><a>Edit profile</a></li>
                 </ul>
             </div>
             </Box>
