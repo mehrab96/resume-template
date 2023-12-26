@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { url } from 'inspector';
 
 interface GalleryStore {
     galleries: Gallery[];
@@ -11,6 +12,7 @@ interface GalleryStore {
     currentPage: number;
     lastPage: number;
     setGalleries: (galleries: Gallery[]) => void;
+    setSelectGallery: (gallery: Gallery[]) => void;
     setLinks: (links: PaginateLinks[]) => void;
     setCurrentPage: (page: number) => void;
     setLoader: (loader: boolean) => void;
@@ -18,7 +20,7 @@ interface GalleryStore {
     setLastPage: (page: number) => void;
     getAllGalleries: (page: number) => void;
     deleteGallery: (gallery: Gallery , index: number) => void;
-    setSelectedGalleries: (gallery: Gallery , multiple : boolean) => void;
+    setSelectedGalleries: (gallery: Gallery ,select:boolean, multiple : boolean) => void;
     setEmptySelectedGalleries: () => void;
 }
   
@@ -62,8 +64,10 @@ const useStoreGallery = create<GalleryStore>((set) => ({
         }
     },
     setModal: () => document.getElementById('my_modal_2').showModal(),
-    setSelectedGalleries : (gallery , multiple) => {
-
+    setSelectedGalleries : (gallery ,select, multiple) => {
+        if(!select){
+            return;
+        }
         if(multiple){
             const isSelect = useStoreGallery.getState().selectedGalleries.some(g => g.id == gallery.id);
             if(!isSelect){
@@ -90,6 +94,11 @@ const useStoreGallery = create<GalleryStore>((set) => ({
                 })
             }
         }              
+    },
+    setSelectGallery : (gallery) => {
+        set({
+            selectedGalleries : gallery
+        })
     },
     setEmptySelectedGalleries: () => {
         set(() => ({

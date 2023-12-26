@@ -11,7 +11,6 @@ const MediaPage = () => {
  const {
   loader,
  } = useStoreGallery();
-  
 
   return (
     <div>
@@ -21,7 +20,7 @@ const MediaPage = () => {
         <UploadForm/>
       )}
         <div className='mt-8'>
-          <ShowAllGalleries multiple={false}/>
+          <ShowAllGalleries select={false} multiple={false}/>
         </div>
     </div>
   )

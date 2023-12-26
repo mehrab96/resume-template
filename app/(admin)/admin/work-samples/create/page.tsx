@@ -4,7 +4,7 @@ import React from 'react'
 const CreateSamplePage = () => {
   return (
     <div>
-      <FormSample />
+      <FormSample edit={false} />
     </div>
   )
 }

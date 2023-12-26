@@ -5,8 +5,6 @@ import{ join } from "path";
 import prisma from "@/prisma/client";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
-import * as Bytescale from "@bytescale/sdk";
-import nodeFetch from "node-fetch";
 
 
 export async function POST(req: NextRequest){
@@ -17,22 +15,17 @@ export async function POST(req: NextRequest){
         return NextResponse.json('not found' , {status: 404});
     }
 
-    const uploadManager = new Bytescale.UploadManager({
-        fetchApi: nodeFetch, // import nodeFetch from "node-fetch"; // Only required for Node.js. TypeScript: 'nodeFetch as any' may be necessary.
-        apiKey: "public_12a1yipC1J6LthQFvyvr5tjCXFyz" // This is your API key.
-    });
     const bytes = await file.arrayBuffer();
     const buffer =  Buffer.from(bytes);
 
-    // const dir = join(process.cwd(), 'public', 'upload');
-    // const destinationPath = join(process.cwd(), 'public', 'upload', file.name);
-    // if (!fs.existsSync(dir)) {
-    //     fs.mkdirSync(dir);
-    // }
+    const dir = join(process.cwd(), 'public', 'upload');
+    const destinationPath = join(process.cwd(), 'public', 'upload', file.name);
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+    }
     
-    // await writeFile(destinationPath , buffer);
+    await writeFile(destinationPath , buffer);
 
-   const result = await uploadManager.upload({data: buffer,originalFileName: file.name});
 
     try{
         const session = await getServerSession(authOptions);
@@ -43,8 +36,8 @@ export async function POST(req: NextRequest){
                 name : file.name,
                 size : file.size,
                 format : file.type,
-                path : result.filePath,
-                url : result.fileUrl,
+                path : destinationPath,
+                url : "/upload/" + file.name,
                 userId: user?.id
             }
         });

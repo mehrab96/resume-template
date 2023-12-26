@@ -5,31 +5,38 @@ import { create } from 'zustand'
 
 interface SamplesStore {
   samples: Sample[];
+  sample: Sample | null;
   links: PaginateLinks[];
   currentPage: number;
   lastPage: number;
   loader: boolean;
   setSamples: (samples: Sample[]) => void;
+  setSample: (sample: Sample) => void;
+  setEmptySample: () => void;
   setLinks: (links: PaginateLinks[]) => void;
   setLoader: (loader: boolean) => void;
   setCurrentPage: (page: number) => void;
   setLastPage: (page: number) => void;
   getAllSamples: (page: number) => void;
+  getSample: (id: string) => void;
   deleteSample: (sample: Sample , index: number) => void;
 }
   
   const useStoreSample = create<SamplesStore>((set) => ({
     samples: [],
+    sample : null,
     links: [],
     currentPage: 1,
     lastPage: 1,
     loader: false,
     setSamples: (samples) => set({ samples }),
+    setEmptySample: () => set({sample : null }),
+    setSample: (sample) => set({ sample }),
     setLinks: (links) => set({ links  }),
     setLoader: (loader) => set({ loader }),
     setCurrentPage: (page) => set({ currentPage: page }),
     setLastPage: (page) => set({ lastPage: page }),
-    getAllSamples: async (page : number) => {
+    getAllSamples: async (page) => {
       try {
         set({loader : true})
         const response = await axios.get(`/api/work-sample/all?page=${page}`);
@@ -39,6 +46,20 @@ interface SamplesStore {
             links: response.data.links,
             currentPage: response.data.current_page,
             lastPage: response.data.last_page,
+            loader: false,
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching samples:', error);
+      }
+    },
+    getSample: async (id) => {
+      try {
+        set({loader : true})
+        const response = await axios.get(`/api/work-sample/${id}`);
+        if (response.status === 200) {
+          set({
+            sample: response.data,
             loader: false,
           });
         }
@@ -56,4 +77,6 @@ interface SamplesStore {
         }
     }
   }));
+
+
   export default useStoreSample;

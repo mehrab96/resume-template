@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useStoreGallery from '../../store/gallery';
 import ShowAllGalleries from './ShowAllGalleries';
 import UploadForm from './Upload';
-import { MdBlindsClosed, MdClose, MdClosedCaption } from 'react-icons/md';
+import { MdClose } from 'react-icons/md';
 
 interface Props {
     multiple : boolean
@@ -13,7 +13,6 @@ const ModalGallery = ({multiple} : Props) => {
     const [currentTab , setCurrentTab] = useState(0);
 
     const {
-        setModal,
         getAllGalleries,
     } = useStoreGallery();
 
@@ -40,7 +39,7 @@ const ModalGallery = ({multiple} : Props) => {
             </form>
         </div>
         <div className="overflow-y-scroll mt-3 !h-[66vh]">
-            {currentTab == 0 ? <ShowAllGalleries multiple={multiple}/> : <UploadForm/>}
+            {currentTab == 0 ? <ShowAllGalleries select={true} multiple={multiple}/> : <UploadForm/>}
         </div>
 
         </div>

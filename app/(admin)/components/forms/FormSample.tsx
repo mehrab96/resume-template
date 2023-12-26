@@ -1,6 +1,6 @@
 "use client";
 import { Button, Grid, TextFieldInput, Text, Select } from '@radix-ui/themes'
-import React, { useState  } from 'react';
+import React, { useEffect, useRef, useState  } from 'react';
 import {zodResolver} from '@hookform/resolvers/zod';
 import { useForm } from "react-hook-form"
 import { WorkSamplesSchema } from '../../validations/validationSchemas';
@@ -13,60 +13,89 @@ import toast from 'react-hot-toast';
 import Spinner from './Spinner';
 import ModalGallery from '../gallery/ModalGallery';
 import useStoreGallery from '../../store/gallery';
+import useStoreSample from '../../store/sample';
+
 
 type WorkSampleForm = z.infer<typeof WorkSamplesSchema>;
 
-const FormSample = () => {
+interface Props {
+    edit: boolean | null
+}
 
-        const [isSubmitting , setSubmitting] = useState(false);
-        const [body , setBody] = useState('');
-        const [editorInstance , setEditorInstance]= useState<any>(undefined);
-        const [status , setStatus] = useState("0");
-        const editorConfiguration = {
-            toolbar: [
-                'heading',
-                '|',
-                'bold',
-                'italic',
-                'link',
-                'bulletedList',
-                'numberedList',
-                '|',
-                'outdent',
-                'indent',
-                '|',
-                'imageUpload',
-                'blockQuote',
-                'insertTable',
-                'mediaEmbed',
-                'undo',
-                'redo'
-            ]
-        };
+const FormSample = ({edit} : Props) => {
 
-        const {
-            setModal,
-            selectedGalleries,
-            setEmptySelectedGalleries
-        } = useStoreGallery();
+    const [isSubmitting , setSubmitting] = useState(false);
+    const [sampleId, setSampleId] = useState("");
+    const [body , setBody] = useState('');
+    const [editorInstance , setEditorInstance]= useState<any>(undefined);
+    const [status , setStatus] = useState("0");
+    const editorConfiguration = {
+        toolbar: [
+            'heading',
+            '|',
+            'bold',
+            'italic',
+            'link',
+            'bulletedList',
+            'numberedList',
+            '|',
+            'outdent',
+            'indent',
+            '|',
+            'imageUpload',
+            'blockQuote',
+            'insertTable',
+            'mediaEmbed',
+            'undo',
+            'redo'
+        ]
+    };
 
-        const {
-            register,
-            handleSubmit,
-            reset,
-            formState : {errors}
-          } = useForm<WorkSampleForm>({
-            resolver: zodResolver(WorkSamplesSchema)
-          });
+    const isMountedRef = useRef(true);
     
+    const {
+        setModal,
+        selectedGalleries,
+        setEmptySelectedGalleries,
+        setSelectGallery
+    } = useStoreGallery();
 
-        const getEditorHandler = (editor: any) => {
-            setBody(editor.getData());
-            setEditorInstance(editor);
-        }
+    const {
+        sample,
+        setEmptySample
+    } = useStoreSample();
 
-        const submitSample = handleSubmit(async (data) => {
-            setSubmitting(true);
+    const {
+        setValue,
+        register,
+        handleSubmit,
+        reset,
+        formState : {errors}
+        } = useForm<WorkSampleForm>({
+        resolver: zodResolver(WorkSamplesSchema)
+        });
+
+
+    const getEditorHandler = (editor: any) => {
+        setBody(editor.getData());
+        setEditorInstance(editor);
+    }
+
+    const submitSample = handleSubmit(async (data) => {
+        setSubmitting(true);
+        if(edit && sampleId){
+            const response = await axios.put(`/api/work-sample/${sampleId}` , {
+                title : data.title,
+                slug : data.slug,
+                status : status,
+                body : body,
+                image : selectedGalleries[0]?.url ? selectedGalleries[0]?.url : '',
+            });
+            if(response.status == 200){
+                toast.success('The sample has updated');
+                console.log(response.data);
+            }
+        }else{
             const response = await axios.post('/api/work-sample' , {
                 title : data.title,
                 slug : data.slug,
@@ -79,17 +108,58 @@ const FormSample = () => {
                 console.log(response.data);
                 resetForm();
             }
-            setSubmitting(false);
-        });
+        }
         
+        setSubmitting(false);
+    });
+
+   
+
+
+    useEffect(() => {  
+        isMountedRef.current = true;
+        if(sample){
+            setSampleId(sample.id )
+            setValue('slug' ,sample.slug )
+            setValue('title' ,sample.title )
+            setSelectGallery([{
+                url : sample.image,
+                id: 0,
+                format: '',
+                name: '',
+                path: '',
+                size: 0,
+                created_at : new Date(Date.now())
+            }])
+            setBody(sample.body);
+            setStatus(sample.status ? "1" : "0" );
+            if (editorInstance) {
+                editorInstance.setData(sample.body);
+            }
+        }
+
+        return () => {
+            if (isMountedRef.current && !sample) {
+                setEmptySample();
+                setEmptySelectedGalleries()
+              }
+              isMountedRef.current = false;
+        };
+    }, [sample])
+
     
-        const resetForm = () => {
-            reset();
-            setBody('')
-            setStatus("0")
-            setEmptySelectedGalleries()
+
+    const resetForm = () => {
+        reset();
+        setBody('')
+        setStatus("0")
+        setEmptySelectedGalleries()
+        if(editorInstance){
             editorInstance.setData('');
         }
+    }
+
+ 
 
   return (
     <div>
@@ -130,7 +200,8 @@ const FormSample = () => {
                     </Grid>
                     <Grid>
                     <CKEditor    
-                        onChange={ (event, editor ) => getEditorHandler(editor)}     
+                        onChange={ (event, editor ) => getEditorHandler(editor)}   
+                        data={body}  
                         config={editorConfiguration}
                         editor={ClassicEditor}                
                        />                        
@@ -156,10 +227,14 @@ const FormSample = () => {
                         </div>
                     </aside>
                 </Grid>
-            </Grid>
-            <Button  size="3" className='!mt-4 w-44 !cursor-pointer !text-light !bg-slate-800' disabled={isSubmitting}>{isSubmitting ?  (
+            </Grid> 
+            {edit && <Button  size="3" className='!mt-4 w-44 !cursor-pointer !text-light !bg-slate-800' disabled={isSubmitting}>{isSubmitting ?  (
                 <div className='flex items-center gap-3'><span className='flex text-base items-center'>processing</span><Spinner /></div>
-            ) : 'Store Sample'}</Button>
+            ) : 'Upload Sample'}</Button>}
+            {!edit && <Button  size="3" className='!mt-4 w-44 !cursor-pointer !text-light !bg-slate-800' disabled={isSubmitting}>{isSubmitting ?  (
+                <div className='flex items-center gap-3'><span className='flex text-base items-center'>processing</span><Spinner /></div>
+            ) : 'Store Sample'}</Button>}
+            
         </form>
 
         <ModalGallery multiple={false} />

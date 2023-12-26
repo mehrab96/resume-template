@@ -7,7 +7,7 @@ import {type NextRequest ,  NextResponse} from "next/server";
 export async function GET( request: NextRequest){   
     const searchParams : any = await request.nextUrl.searchParams;
     const page : number = await searchParams.get('page');
-    const pageSize: number = 3;
+    const pageSize: number = 8;
     try{
         const skip = (page - 1) * pageSize;
         const total = await prisma.sample.count();

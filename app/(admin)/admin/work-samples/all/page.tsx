@@ -3,6 +3,7 @@ import { Badge, Button , DropdownMenu } from '@radix-ui/themes';
 import React, { useEffect } from 'react';
 import useStoreSample from '@/app/(admin)/store/sample';
 import { Skeleton } from '@/app/(admin)/components/packages/packagesUi';
+import Link from 'next/link';
 
 const AllSamplesPage = () => {
   const items: number[] = [1,2,3,4,5,6];
@@ -93,10 +94,14 @@ const AllSamplesPage = () => {
                   </Button>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
-                  <DropdownMenu.Item shortcut="⌘ E">Edit</DropdownMenu.Item>
-                  <DropdownMenu.Item shortcut="⌘ D">Show</DropdownMenu.Item>
+                <Link href={`edit/${sample.id}`}>
+                <DropdownMenu.Item className='!cursor-pointer'>
+                  Edit
+                  </DropdownMenu.Item>
+                </Link>              
+                  <DropdownMenu.Item className='!cursor-pointer'>Show</DropdownMenu.Item>
                   <DropdownMenu.Separator />
-                  <DropdownMenu.Item onClick={() => deleteSample(sample , index)} shortcut="⌘ ⌫" color="red">
+                  <DropdownMenu.Item className='!cursor-pointer' onClick={() => deleteSample(sample , index)} color="red">
                     Delete
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>
@@ -106,12 +111,12 @@ const AllSamplesPage = () => {
           ) )}
           {loader && items.map((item , index) => 
             <tr className='border-b-gray-100' key={index}>
-              <td><Skeleton className='w-full' inline height="4rem"/></td> 
-              <td><Skeleton className='w-full' inline height="4rem"/></td> 
-              <td><Skeleton className='w-full' inline height="4rem"/></td> 
-              <td><Skeleton className='w-full' inline height="4rem"/></td> 
-              <td><Skeleton className='w-full' inline height="4rem"/></td>
-               <td><Skeleton className='w-full' inline height="4rem"/></td>
+              <td><Skeleton className='w-full' width="2rem" height="2rem"/></td> 
+              <td><Skeleton className='w-full' width="5rem" inline height="4rem"/></td> 
+              <td><Skeleton className='w-full' width="20rem" inline height="2rem"/></td> 
+              <td><Skeleton className='w-full' width="8rem" inline height="2rem"/></td> 
+              <td><Skeleton className='w-full' width="10rem" inline height="2rem"/></td>
+               <td><Skeleton className='w-full' width="7rem" inline height="3rem"/></td>
             </tr>
           )}
         </tbody>
