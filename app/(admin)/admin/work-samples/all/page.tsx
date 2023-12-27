@@ -1,15 +1,17 @@
 "use client"
-import { Badge, Button , DropdownMenu } from '@radix-ui/themes';
+import { Button , DropdownMenu } from '@radix-ui/themes';
 import React, { useEffect ,useState} from 'react';
 import useStoreSample from '@/app/(admin)/store/sample';
 import { Skeleton } from '@/app/(admin)/components/packages/packagesUi';
 import Link from 'next/link';
+import PingComponent from '@/app/(admin)/components/part/PingComponent';
+import { MdDeleteOutline, MdFilter, MdFilter1, MdFilterAlt, MdFilterListAlt, MdGroupRemove, MdOutlineFilter, MdOutlineFilterList } from 'react-icons/md';
 
 const AllSamplesPage = () => {
   const items: number[] = [1,2,3,4,5,6];
   const [checkboxValues, setCheckboxValues]= useState<any>([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-
+  const columns: string = '4rem_4rem_8rem_1fr_10rem_1fr_7rem';
 
   const { 
     samples,
@@ -79,36 +81,62 @@ const AllSamplesPage = () => {
           <input type="text" value={searchTerm!} onChange={(value) => searchHandle(value.target.value)} placeholder="Type here..." className="input input-sm input-bordered w-[18rem] !h-10 max-w-xs" />
         </div>
 
-        {checkboxValues.length >= 1 && <button onClick={()=>deleteSelectSamples(checkboxValues)} className="btn btn-sm !h-10 btn-outline btn-error hover:!text-light">Remove All</button>}
+        <div className='grid grid-cols-[auto_auto] gap-x-2 justify-start items-center'>
+          {checkboxValues.length >= 1 && <Button className='!h-10 !cursor-pointer' onClick={()=>deleteSelectSamples(checkboxValues)} color="crimson" variant="soft">
+            <span>Remove All</span>
+            <MdDeleteOutline className='text-lg'/>
+          </Button>}
+          
+ 
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger color="indigo" className='!h-10 !px-4'>
+              <Button variant="soft" className='!cursor-pointer'>
+                Filter
+                <MdOutlineFilterList className='text-lg'/>
+              </Button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content>
+              <DropdownMenu.Item color="indigo" className='!cursor-pointer w-28' >
+              Edit
+              </DropdownMenu.Item>
+              <DropdownMenu.Item color="indigo" className='!cursor-pointer'>Show</DropdownMenu.Item>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
+        </div>
+
+        
+
       </div>
-      <table className="table w-full">
+      <div className="w-full mt-4">
         {/* head */}
-        <thead>
-          <tr className='text-[.96rem] text-gray-800 border-b-gray-200 !h-14 font-bold'>
-            <th className='w-4'>#</th>
-            <th className='flex mt-1'>
+        <div className='grid px-4 grid-cols-1'>
+          <div className={`text-[.89rem]
+          grid grid-cols-[${columns}]
+           text-gray-800 border-b-none !h-14 font-bold`}>
+            <div className='pl-4'>#</div>
+            <div className=''>
               <label className="checkbox ">
                   <input
                   className='checkbox'
                   onChange={selectAll}
                   type="checkbox"/>
               </label>
-            </th>
-            <th>Image</th>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Publish Time</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>    
+            </div>
+            <div>Image</div>
+            <div>Title</div>
+            <div>Status</div>
+            <div>Publish Time</div>
+            <div>Action</div>
+          </div>
+        </div>
+        <div className='grid grid-cols-1 gap-6'>    
           {!loader && samples.map((sample , index) => (
-            <tr className='border-b-gray-100' key={index}>
-              <td>
+            <div className={`!border-gray-100 h-[5.5rem] px-4 grid items-center grid-cols-[${columns}]  border-[1px] rounded-3xl`} key={index}>
+              <div className='pl-4'>
                 <span className='font-semibold'>{index + 1}</span>
-              </td>
-              <td className='h-28 grid content-center items-center'>
-                <label className="checkbox">
+              </div>
+              <div className='grid content-center items-center'>
+                <label className="checkbox flex">
                     <input
                     className='checkbox'
                      value={sample.id} 
@@ -117,66 +145,73 @@ const AllSamplesPage = () => {
                      onChange={() => handleCheckboxChange(sample.id)}
                     type="checkbox"/>
                 </label>
-              </td>
-              <td>
+              </div>
+              <div>
                 <div className="flex items-center gap-3">
                   <div className="avatar">
-                    <div className="mask !rounded-lg w-20 h-20">
+                    <div className="mask !rounded-lg w-16 h-16">
                       <img src={sample.image ? sample.image : '/images/imagenotfound.webp'} alt={sample?.title}/>
                     </div>                               
                   </div>
                 </div>
-              </td>
-              <td>
-                <div className="font-bold text-base">{sample.title}</div>
-              </td>
-              <td>
-                {sample.status == "0" ? <Badge className='!text-sm !py-1.5 !px-3.5' color="orange">pending</Badge> : <Badge className='!text-sm !py-1.5 !px-3.5' color="green">publish</Badge>}
-              </td>
-              <td>
+              </div>
+              <div>
+                <div className="font-semibold text-sm">{sample.title}</div>
+              </div>
+              <div className='relative'>
+                {sample.status == "0" ? <div className='grid grid-cols-[auto_auto] items-center justify-start gap-2'>
+                  <PingComponent color="orange"/>
+                  <span className='text-orange-500 font-semibold text-sm'>pending</span>
+                </div> : <div className='grid grid-cols-[auto_auto] items-center justify-start gap-2'>
+                  <PingComponent color="green"/>
+                  <span className='text-green-500 font-semibold text-sm'>pending</span>
+                </div>}
+              </div>
+              <div className='font-semibold text-sm'>
                 { new Date(sample.created_at).toLocaleString('en-US', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric',
                   })
                 }
-              </td>
-              <td>
+              </div>
+              <div>
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
-                  <Button variant="soft" className='!cursor-pointer'>
+                  <Button variant="soft" color="indigo" className='!cursor-pointer !px-4 !py-1 !text-xs'>
                     Options
                   </Button>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
                 <Link href={`edit/${sample.id}`}>
-                <DropdownMenu.Item className='!cursor-pointer'>
+                <DropdownMenu.Item color="indigo" className='!cursor-pointer'>
                   Edit
                   </DropdownMenu.Item>
                 </Link>              
-                  <DropdownMenu.Item className='!cursor-pointer'>Show</DropdownMenu.Item>
+                  <DropdownMenu.Item color="indigo" className='!cursor-pointer'>Show</DropdownMenu.Item>
                   <DropdownMenu.Separator />
-                  <DropdownMenu.Item className='!cursor-pointer' onClick={() => deleteSample(sample , index)} color="red">
+                  <DropdownMenu.Item  className='!cursor-pointer' onClick={() => deleteSample(sample , index)} color="red">
                     Delete
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>
               </DropdownMenu.Root>
-              </td>
-            </tr>
+              </div>
+            </div>
           ) )}
           {loader && items.map((item , index) => 
-            <tr className='border-b-gray-100' key={index}>
-              <td><Skeleton className='w-full' width="1rem" height="1rem"/></td> 
-              <td><Skeleton className='w-full' width="2rem" height="2rem"/></td> 
-              <td><Skeleton className='w-full' width="5rem" inline height="4rem"/></td> 
-              <td><Skeleton className='w-full' width="20rem" inline height="2rem"/></td> 
-              <td><Skeleton className='w-full' width="8rem" inline height="2rem"/></td> 
-              <td><Skeleton className='w-full' width="10rem" inline height="2rem"/></td>
-               <td><Skeleton className='w-full' width="7rem" inline height="3rem"/></td>
-            </tr>
+            <div className={`grid h-24 px-4 grid-cols-[${columns}]
+             border-gray-100 border-[1px] items-center rounded-3xl`} key={index}>
+              <div className='pl-3 mt-1'><Skeleton className='w-full' width=".8rem"  height=".8rem"/></div> 
+              <div><Skeleton className='w-full' width="1.5rem" inline  height="1.5rem"/></div> 
+              <div><Skeleton className='w-full' width="4rem" inline height="4rem"/></div> 
+              <div><Skeleton className='w-full' width="12rem" inline height="2rem"/></div> 
+              <div><Skeleton className='w-full' width="7rem" inline height="2rem"/></div> 
+              <div><Skeleton className='w-full' width="10rem" inline height="2rem"/></div>
+               <div><Skeleton className='w-full' width="6rem" inline height="2rem"/></div>
+            </div>
           )}
-        </tbody>
-      </table>
+        </div>
+      </div>
 
       {!loader && lastPage > 1 && (
         <div className="join mt-10">
