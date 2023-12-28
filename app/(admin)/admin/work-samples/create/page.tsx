@@ -1,3 +1,4 @@
+"use client"
 import FormSample from '@/app/(admin)/components/forms/FormSample'
 import React from 'react'
 

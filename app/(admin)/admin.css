@@ -12,7 +12,7 @@
     @apply h-64;
 }
 .tabActive{
-    @apply !bg-slate-700 !text-light;
+    @apply !bg-indigo-100 !text-indigo-700;
 }
 
 

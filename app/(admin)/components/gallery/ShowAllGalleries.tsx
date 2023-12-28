@@ -46,19 +46,19 @@ const ShowAllGalleries = ({multiple , select} : Props) => {
 
   return (
     <div>
-        <Grid gap="4" columns={select ? '6' : '4'}>
+        <Grid gap="4" columns={select ? '6' : '5'}>
         {!loader && galleries.map((file , index) => (
             <div onClick={() => setSelectedGalleries(file ,select, multiple)} key={index} 
             className={`card bg-base-100 border-2
              border-transparent shadow-xl 
              ${selectedGalleries.some(g => g.id == file.id) ? '!border-teal-600' : '' }`}>
-            <figure className={`${select ? 'h-[8rem]' : 'h-[12rem]'}`}>
+            <figure className={`${select ? 'h-[8rem]' : 'h-[9rem]'}`}>
                 {file.url && <img className='w-full h-full object-cover' src={file.url} alt={file.name} />}
             </figure>
             <div className="px-4 py-3 w-full grid gap-1 grid-cols-1">
-            <div className="font-bold w-full truncate !text-[.85rem]">{file.name}</div>                    
-            <div className="font-bold truncate !text-[.85rem]">format: <span>{file.format}</span></div>                    
-            <div className="font-bold truncate !text-[.85rem]">size: <span className='text-xs'>{file.size}</span></div>                    
+            <div className="font-bold w-full truncate !text-[.8rem]">{file.name}</div>                    
+            <div className="font-bold truncate !text-[.8rem]">format: <span>{file.format}</span></div>                    
+            <div className="font-bold truncate !text-[.8rem]">size: <span className='text-xs'>{file.size}</span></div>                    
             </div>
             {!select && <div className='grid justify-center mb-4'>
             <button className='bg-red-50 font-semibold text-sm text-red-700 rounded-2xl py-2 px-8' onClick={() => deleteGallery(file , index)}>Remove Media</button>
@@ -68,11 +68,11 @@ const ShowAllGalleries = ({multiple , select} : Props) => {
         ))}
         
         { loader  && items.map((item, index) => 
-            <div className='grid grid-cols-1 gap-1'>
-                <Skeleton key={index} height={select ? '8rem' : '12rem'}/>
-                <Skeleton key={index} height="2rem"/>
-                <Skeleton key={index} height="2rem"/>
-                {!select && <Skeleton key={index} height="2rem"/>}
+            <div className='grid grid-cols-1 gap-1' key={index}>
+                <Skeleton  height={select ? '8rem' : '9rem'}/>
+                <Skeleton  height="2rem"/>
+                <Skeleton  height="2rem"/>
+                {!select && <Skeleton  height="2rem"/>}
             </div>
         )}
         </Grid>

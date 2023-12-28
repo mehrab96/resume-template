@@ -26,7 +26,7 @@ const ModalGallery = ({multiple} : Props) => {
         <dialog id="my_modal_2" className="modal">
         <div className="modal-box bg-white !h-[80vh] !max-h-[80vh] !w-[90vw] !max-w-[90vw]">
         <div className='grid grid-cols-[auto_auto] items-center justify-between'>
-            <div role="tablist" className="tabs shadow-lg !bg-slate-100 py-2 px-2 tabs-boxed">
+            <div role="tablist" className="tabs shadow-lg shadow-indigo-100/40 !bg-indigo-50/40 py-2 px-2 tabs-boxed">
                 <a onClick={() => setCurrentTab(0)} 
                 role="tab"
                 className={`tab ${currentTab == 0 && 'tabActive'}`}>Show All Media</a>

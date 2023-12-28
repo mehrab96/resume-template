@@ -12,6 +12,7 @@ interface SamplesStore {
   lastPage: number;
   loader: boolean;
   setSamples: (samples: Sample[]) => void;
+  setEmptySamples: () => void;
   setSample: (sample: Sample) => void;
   setEmptySample: () => void;
   setLinks: (links: PaginateLinks[]) => void;
@@ -35,8 +36,9 @@ interface SamplesStore {
     lastPage: 1,
     loader: false,
     setSamples: (samples) => set({ samples }),
+    setEmptySamples: () => set({samples : [] }),
     setEmptySample: () => set({sample : null }),
-    setSearchTerm: (searchTerm) => set({ searchTerm}),
+    setSearchTerm: (searchTerm) => set({ searchTerm : searchTerm}),
     setSample: (sample) => set({ sample }),
     setLinks: (links) => set({ links  }),
     setLoader: (loader) => set({ loader }),

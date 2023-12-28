@@ -1,22 +1,23 @@
 "use client"
-import { Button , DropdownMenu } from '@radix-ui/themes';
+import { Button , DropdownMenu, TextField } from '@radix-ui/themes';
 import React, { useEffect ,useState} from 'react';
 import useStoreSample from '@/app/(admin)/store/sample';
 import { Skeleton } from '@/app/(admin)/components/packages/packagesUi';
 import Link from 'next/link';
 import PingComponent from '@/app/(admin)/components/part/PingComponent';
-import { MdDeleteOutline, MdFilter, MdFilter1, MdFilterAlt, MdFilterListAlt, MdGroupRemove, MdOutlineFilter, MdOutlineFilterList } from 'react-icons/md';
+import { MdDeleteOutline, MdFilter, MdFilter1, MdFilterAlt, MdFilterListAlt, MdGroupRemove, MdOutlineFilter, MdOutlineFilterList, MdOutlineSearch } from 'react-icons/md';
 
 const AllSamplesPage = () => {
   const items: number[] = [1,2,3,4,5,6];
   const [checkboxValues, setCheckboxValues]= useState<any>([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-  const columns: string = '4rem_4rem_8rem_1fr_10rem_1fr_7rem';
+  const [columns, setColumns] = useState<string>(`grid-cols-[4rem_4rem_8rem_1fr_10rem_1fr_7rem]`);
 
   const { 
     samples,
     getAllSamples,
     deleteSample,
+    setEmptySamples,
     searchTerm,
     setSearchTerm,
     deleteSelectSamples,
@@ -70,7 +71,10 @@ const AllSamplesPage = () => {
       getAllSamples(1);
     }, 500);
     
-    return () => clearTimeout(delaySearch);
+    return () => {
+      clearTimeout(delaySearch);
+      setEmptySamples();
+    };
   }, [searchTerm]);
 
   return (
@@ -78,7 +82,12 @@ const AllSamplesPage = () => {
       <div className='grid py-3 items-center grid-cols-[auto_auto] justify-between'>
         <div className='grid py-3 items-center grid-cols-[auto_auto] gap-2 justify-start'>
           <span className='font-normal pl-2'>Search:</span>
-          <input type="text" value={searchTerm!} onChange={(value) => searchHandle(value.target.value)} placeholder="Type here..." className="input input-sm input-bordered w-[18rem] !h-10 max-w-xs" />
+          <TextField.Root color='indigo' className='w-72' radius='large'>
+            <TextField.Slot>
+              <MdOutlineSearch height="16" width="16" />
+            </TextField.Slot>
+            <TextField.Input variant="soft" value={searchTerm!} onChange={(value) => searchHandle(value.target.value)} className="w-[18rem] !h-10 !focus:outline-none !border-0 !ring-0 !outline-0" placeholder="Search data…" />
+          </TextField.Root>
         </div>
 
         <div className='grid grid-cols-[auto_auto] gap-x-2 justify-start items-center'>
@@ -111,7 +120,7 @@ const AllSamplesPage = () => {
         {/* head */}
         <div className='grid px-4 grid-cols-1'>
           <div className={`text-[.89rem]
-          grid grid-cols-[${columns}]
+          grid ${columns}
            text-gray-800 border-b-none !h-14 font-bold`}>
             <div className='pl-4'>#</div>
             <div className=''>
@@ -131,7 +140,7 @@ const AllSamplesPage = () => {
         </div>
         <div className='grid grid-cols-1 gap-6'>    
           {!loader && samples.map((sample , index) => (
-            <div className={`!border-gray-100 h-[5.5rem] px-4 grid items-center grid-cols-[${columns}]  border-[1px] rounded-3xl`} key={index}>
+            <div className={`!border-gray-100 h-[5.5rem] px-4 grid items-center ${columns} border-[1px] rounded-3xl`} key={index}>
               <div className='pl-4'>
                 <span className='font-semibold'>{index + 1}</span>
               </div>
@@ -160,10 +169,10 @@ const AllSamplesPage = () => {
               </div>
               <div className='relative'>
                 {sample.status == "0" ? <div className='grid grid-cols-[auto_auto] items-center justify-start gap-2'>
-                  <PingComponent color="orange"/>
+                  <PingComponent color="bg-orange-500" coloropacity="bg-orange-200"/>
                   <span className='text-orange-500 font-semibold text-sm'>pending</span>
                 </div> : <div className='grid grid-cols-[auto_auto] items-center justify-start gap-2'>
-                  <PingComponent color="green"/>
+                  <PingComponent color="bg-green-500" coloropacity="bg-green-200"/>
                   <span className='text-green-500 font-semibold text-sm'>pending</span>
                 </div>}
               </div>
@@ -199,7 +208,7 @@ const AllSamplesPage = () => {
             </div>
           ) )}
           {loader && items.map((item , index) => 
-            <div className={`grid h-24 px-4 grid-cols-[${columns}]
+            <div className={`grid h-24 px-4 ${columns}
              border-gray-100 border-[1px] items-center rounded-3xl`} key={index}>
               <div className='pl-3 mt-1'><Skeleton className='w-full' width=".8rem"  height=".8rem"/></div> 
               <div><Skeleton className='w-full' width="1.5rem" inline  height="1.5rem"/></div> 

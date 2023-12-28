@@ -5,7 +5,7 @@ import prisma from "@/prisma/client";
 export async function GET(req: NextRequest){
     const searchParams : any = await req.nextUrl.searchParams;
     const page : number = await searchParams.get('page');
-    const pageSize: number = 8;
+    const pageSize: number = 10;
     try{
         const skip = (page - 1) * pageSize;
         const total = await prisma.gallery.count();
